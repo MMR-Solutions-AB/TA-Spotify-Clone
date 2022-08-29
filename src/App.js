@@ -9,20 +9,22 @@ import SideNav from "./components/SideNav/SideNav";
 import MobileNav from "./components/MobilNav/MobileNav";
 import Player from "./components/Player/Player";
 import { getSessionStorage, getAccessToken } from "./utils/getAccesToken";
-function App({spotifyApi}) {
-
+function App({ spotifyApi }) {
   const [isPlayerReady, setIsPlayerReady] = useState(true);
+
   const [token, setToken] = useState(getSessionStorage);
 
-  useEffect(() => {
-    const _token = getAccessToken();
-    if (_token) {
-      setToken(_token);
-      sessionStorage.setItem("spotifyToken", _token);
+  async function onMount() {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      setToken(accessToken);
+      sessionStorage.setItem("spotifyToken", accessToken);
+      await spotifyApi.setAccessToken(accessToken);
     }
-    if(token){
-/*       spotifyApi.get
- */    }
+  }
+
+  useEffect(() => {
+    onMount();
   }, []);
 
   return (
