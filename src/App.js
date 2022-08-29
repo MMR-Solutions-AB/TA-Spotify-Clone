@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "./components/pages/Login";
 import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
@@ -8,9 +8,22 @@ import Home from "./components/pages/Home";
 import SideNav from "./components/SideNav/SideNav";
 import MobileNav from "./components/MobilNav/MobileNav";
 import Player from "./components/Player/Player";
-function App() {
-  const [isPlayerReady, setSsPlayerReady] = useState(true)
-  const [token, setToken] = useState(false);
+import { getSessionStorage, getAccessToken } from "./utils/getAccesToken";
+function App({spotifyApi}) {
+
+  const [isPlayerReady, setIsPlayerReady] = useState(true);
+  const [token, setToken] = useState(getSessionStorage);
+
+  useEffect(() => {
+    const _token = getAccessToken();
+    if (_token) {
+      setToken(_token);
+      sessionStorage.setItem("spotifyToken", _token);
+    }
+    if(token){
+/*       spotifyApi.get
+ */    }
+  }, []);
 
   return (
     <Box className="App">
