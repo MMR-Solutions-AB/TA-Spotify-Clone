@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
@@ -38,3 +38,5 @@ export const getPlaylist = createAsyncThunk(
     }
   }
 );
+
+export default playListSlice.reducer;
