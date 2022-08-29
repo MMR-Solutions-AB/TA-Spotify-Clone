@@ -8,8 +8,8 @@ import Home from "./components/pages/Home";
 import SideNav from "./components/SideNav/SideNav";
 import MobileNav from "./components/MobilNav/MobileNav";
 import Player from "./components/Player/Player";
-import { getSessionStorage, getAccessToken } from "./utils/getAccesToken";
-
+import { getAccessToken } from "./utils/getAccesToken";
+import { getSessionStorage } from "./utils/getSessionStorage";
 
 function App({ spotifyApi }) {
   const [isPlayerReady, setIsPlayerReady] = useState(true);

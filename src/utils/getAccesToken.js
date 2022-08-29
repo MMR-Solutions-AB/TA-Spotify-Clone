@@ -3,6 +3,7 @@ export const getAccessToken = () => {
   return params.get("access_token");
 };
 
+/* Version 2 för att se expired date ( refresh token ) */
 export const getTokenFromUrl = () => {
   return window.location.hash
     .substring(1)
@@ -13,13 +14,3 @@ export const getTokenFromUrl = () => {
       return initial;
     }, {});
 };
-
-export function getSessionStorage() {
-  const tokenFromLocalStorage = sessionStorage.getItem("spotifyToken");
-  if (tokenFromLocalStorage !== null) {
-    return tokenFromLocalStorage;
-  }
-  return false;
-}
-
-
