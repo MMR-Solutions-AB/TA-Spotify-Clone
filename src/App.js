@@ -9,6 +9,8 @@ import SideNav from "./components/SideNav/SideNav";
 import MobileNav from "./components/MobilNav/MobileNav";
 import Player from "./components/Player/Player";
 import { getSessionStorage, getAccessToken } from "./utils/getAccesToken";
+
+
 function App({ spotifyApi }) {
   const [isPlayerReady, setIsPlayerReady] = useState(true);
 
@@ -19,6 +21,7 @@ function App({ spotifyApi }) {
     if (accessToken) {
       setToken(accessToken);
       sessionStorage.setItem("spotifyToken", accessToken);
+      window.location.hash = "";
       await spotifyApi.setAccessToken(accessToken);
     }
   }
