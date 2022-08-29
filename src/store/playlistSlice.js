@@ -11,5 +11,14 @@ const playListSlice = createSlice({
   initialState,
 });
 
-
-
+export const getPlaylist = createAsyncThunk(
+  "getPlaylist",
+  async (spotifyApi, thunkAPI) => {
+    try {
+      const data = await spotifyApi.getUserPlaylists();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
