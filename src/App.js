@@ -53,7 +53,7 @@ function App({ spotifyApi }) {
           <Box sx={{ flex: 1, overflowY: "auto", display: "flex" }}>
             <SideNav />
             <Routes>
-              <Route path="/playlist/:id" element={<Playlist />} />
+              <Route path="/playlist/:id" element={<Playlist spotifyApi={spotifyApi} />} />
               <Route path="/library" element={<Library />} />
               <Route path="/" element={<Home />} />
             </Routes>

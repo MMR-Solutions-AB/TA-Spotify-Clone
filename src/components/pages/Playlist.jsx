@@ -1,9 +1,45 @@
 import React from "react";
 import { Avatar, Box, Typography } from "@mui/material";
+import { getSpecifikPlaylist } from "../../store/playlistSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import SongTable from "../SongTable/SongTable";
 
+const Playlist = ({ spotifyApi }) => {
+  const [playlistInfo, setPlaylistInfo] = useState({ name: "", image: "" });
+  const [songs, setSongs] = useState([]);
+  const { id } = useParams();
+  const state = useSelector((state) => state.playlist);
+  const dispatch = useDispatch();
 
-const Playlist = () => {
+  useEffect(() => {
+    const getList = async () => {
+      dispatch(getSpecifikPlaylist({ spotifyApi, id }));
+      getPlaylistInfo();
+    };
+    getList();
+  }, [id]);
 
+  const getPlaylistInfo = () => {
+    setPlaylistInfo({
+      image: state.playlist.images[0].url,
+      name: state.playlist.name,
+    });
+    const { tracks } = state.playlist;
+    const formatedSongs = formatSongData(tracks.items);
+    setSongs(formatedSongs);
+  };
+
+  const formatSongData = (songs) => {
+    return songs.map((song, i) => {
+      const { track } = song;
+      track.contextUri = `spotify:playlist:${id}`;
+      track.position = i;
+      return track;
+    });
+  };
   return (
     <Box
       id="Playlist__page"
@@ -24,7 +60,7 @@ const Playlist = () => {
       >
         <Avatar
           /* playlistInfo?.image */
-          src={"#"}
+          src={"playlistInfo.image"}
           variant="square"
           alt="Bieber"
           sx={{
@@ -46,13 +82,15 @@ const Playlist = () => {
               color: "text.primary",
             }}
           >
-            {/* playlistInfo?.name */}
-            playlistInfo?.name
+            {playlistInfo.name}
           </Typography>
         </Box>
       </Box>
-      {/* SongTable Component */}
-      <span>SongTable Component</span>
+      {/*       <SongTable
+        songs={songs}
+        loading={state.playlistStatus.isLoading}
+        spotifyApi={spotifyApi}
+      /> */}
     </Box>
   );
 };
