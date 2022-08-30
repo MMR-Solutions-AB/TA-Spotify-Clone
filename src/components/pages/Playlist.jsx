@@ -1,8 +1,47 @@
 import React from "react";
 import { Avatar, Box, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import SongTable from "../SongTable/SongTable";
 
+const Playlist = ({ spotifyApi }) => {
+  const [playlistInfo, setPlaylistInfo] = useState();
+  const [songs, setSongs] = useState([]);
+  const [status, setStatus] = useState({ isLoading: false, isError: null });
+  const { id } = useParams();
 
-const Playlist = () => {
+  useEffect(() => {
+    const getData = async () => {
+      setStatus((prev) => ({ ...prev, isLoading: true }));
+      try {
+        const playlistDetail = await spotifyApi.getPlaylist(id);
+        setPlaylistInfo({
+          image: playlistDetail.body.images[0].url,
+          name: playlistDetail.body.name,
+        });
+
+        const { tracks } = playlistDetail.body;
+        const formattedSongs = formatSongData(tracks.items);
+        setSongs(formattedSongs);
+      } catch (error) {
+        setStatus((prev) => ({ ...prev, isError: error }));
+      }
+    };
+
+    getData().finally(() => {
+      setStatus((prev) => ({ ...prev, isLoading: false }));
+    });
+  }, [id]);
+
+  const formatSongData = (songs) => {
+    return songs.map((song, i) => {
+      const { track } = song;
+      track.contextUri = `spotify:playlist:${id}`;
+      track.position = i;
+      return track;
+    });
+  };
 
   return (
     <Box
@@ -24,7 +63,7 @@ const Playlist = () => {
       >
         <Avatar
           /* playlistInfo?.image */
-          src={"#"}
+          src={playlistInfo?.image}
           variant="square"
           alt="Bieber"
           sx={{
@@ -46,13 +85,15 @@ const Playlist = () => {
               color: "text.primary",
             }}
           >
-            {/* playlistInfo?.name */}
-            playlistInfo?.name
+            {playlistInfo?.name}
           </Typography>
         </Box>
       </Box>
-      {/* SongTable Component */}
-      <span>SongTable Component</span>
+      <SongTable
+        songs={songs}
+        loading={status.isLoading}
+        spotifyApi={spotifyApi}
+      />
     </Box>
   );
 };

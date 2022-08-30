@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLoading: false,
-  isError: null,
-  playList: [],
+  status: {
+    isLoading: false,
+    isError: null,
+  },
+  albumList: [],
 };
 
 export const playListSlice = createSlice({
@@ -12,18 +14,18 @@ export const playListSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getPlaylist.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = null;
-        state.playList = action.payload;
+        state.status.isLoading = false;
+        state.status.isError = null;
+        state.albumList = action.payload;
       })
       .addCase(getPlaylist.pending, (state) => {
-        state.isLoading = true;
-        state.isError = null;
+        state.status.isLoading = true;
+        state.status.isError = null;
       })
       .addCase(getPlaylist.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = action.payload;
-      });
+        state.status.isLoading = false;
+        state.status.isError = action.payload;
+      })
   },
 });
 

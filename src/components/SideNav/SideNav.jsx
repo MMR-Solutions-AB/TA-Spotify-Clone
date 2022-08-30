@@ -10,12 +10,12 @@ const SideNav = () => {
   const state = useSelector((state) => state.playlist);
 
   const renderPlaylist = () => {
-    if (state.isLoading) {
+    if (state.status.isLoading) {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((e, idx) => {
-        return <NavPlaylist key={idx} loading={state.isLoading} />;
+        return <NavPlaylist key={idx} loading={state.status.isLoading} />;
       });
     }
-    return state.playList.map((playlist, idx) => {
+    return state.albumList.map((playlist, idx) => {
       return <NavPlaylist key={idx} id={playlist.id} name={playlist.name} />;
     });
   };

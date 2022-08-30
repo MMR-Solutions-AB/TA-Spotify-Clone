@@ -15,11 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 function App({ spotifyApi }) {
   const [isPlayerReady, setIsPlayerReady] = useState(true);
-
   const [token, setToken] = useState(getSessionStorage);
-
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.playlist);
 
   const onMount = async () => {
     let accessToken = getAccessToken();
@@ -53,7 +50,7 @@ function App({ spotifyApi }) {
           <Box sx={{ flex: 1, overflowY: "auto", display: "flex" }}>
             <SideNav />
             <Routes>
-              <Route path="/playlist/:id" element={<Playlist />} />
+              <Route path="/playlist/:id" element={<Playlist spotifyApi={spotifyApi} />} />
               <Route path="/library" element={<Library />} />
               <Route path="/" element={<Home />} />
             </Routes>
