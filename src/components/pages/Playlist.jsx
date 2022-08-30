@@ -89,11 +89,11 @@ const Playlist = ({ spotifyApi }) => {
           </Typography>
         </Box>
       </Box>
-      {/*       <SongTable
+      <SongTable
         songs={songs}
-        loading={state.playlistStatus.isLoading}
+        loading={status.isLoading}
         spotifyApi={spotifyApi}
-      /> */}
+      />
     </Box>
   );
 };
