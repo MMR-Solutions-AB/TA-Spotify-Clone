@@ -10,21 +10,30 @@ import MobileNav from "./components/MobilNav/MobileNav";
 import Player from "./components/Player/Player";
 import { getAccessToken } from "./utils/getAccesToken";
 import { getSessionStorage } from "./utils/getSessionStorage";
+import { getPlaylist } from "./store/playlistSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function App({ spotifyApi }) {
   const [isPlayerReady, setIsPlayerReady] = useState(true);
 
   const [token, setToken] = useState(getSessionStorage);
 
-  async function onMount() {
-    const accessToken = getAccessToken();
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.playlist);
+
+  const onMount = async () => {
+    let accessToken = getAccessToken();
+    if (getSessionStorage()) {
+      accessToken = getSessionStorage();
+    }
     if (accessToken) {
       setToken(accessToken);
       sessionStorage.setItem("spotifyToken", accessToken);
-      window.location.hash = "";
       await spotifyApi.setAccessToken(accessToken);
+      dispatch(getPlaylist(spotifyApi));
+      window.location.hash = "";
     }
-  }
+  };
 
   useEffect(() => {
     onMount();
