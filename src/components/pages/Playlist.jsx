@@ -1,36 +1,38 @@
 import React from "react";
 import { Avatar, Box, Typography } from "@mui/material";
-import { getSpecifikPlaylist } from "../../store/playlistSlice";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import SongTable from "../SongTable/SongTable";
 
 const Playlist = ({ spotifyApi }) => {
-  const [playlistInfo, setPlaylistInfo] = useState({ name: "", image: "" });
+  const [playlistInfo, setPlaylistInfo] = useState();
   const [songs, setSongs] = useState([]);
+  const [status, setStatus] = useState({ isLoading: false, isError: null });
   const { id } = useParams();
-  const state = useSelector((state) => state.playlist);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getList = async () => {
-      dispatch(getSpecifikPlaylist({ spotifyApi, id }));
-      getPlaylistInfo();
-    };
-    getList();
-  }, [id]);
+    const getData = async () => {
+      setStatus((prev) => ({ ...prev, isLoading: true }));
+      try {
+        const playlistDetail = await spotifyApi.getPlaylist(id);
+        setPlaylistInfo({
+          image: playlistDetail.body.images[0].url,
+          name: playlistDetail.body.name,
+        });
 
-  const getPlaylistInfo = () => {
-    setPlaylistInfo({
-      image: state.playlist.images[0].url,
-      name: state.playlist.name,
+        const { tracks } = playlistDetail.body;
+        const formattedSongs = formatSongData(tracks.items);
+        setSongs(formattedSongs);
+      } catch (error) {
+        setStatus((prev) => ({ ...prev, isError: error }));
+      }
+    };
+
+    getData().finally(() => {
+      setStatus((prev) => ({ ...prev, isLoading: false }));
     });
-    const { tracks } = state.playlist;
-    const formatedSongs = formatSongData(tracks.items);
-    setSongs(formatedSongs);
-  };
+  }, [id]);
 
   const formatSongData = (songs) => {
     return songs.map((song, i) => {
@@ -40,6 +42,7 @@ const Playlist = ({ spotifyApi }) => {
       return track;
     });
   };
+
   return (
     <Box
       id="Playlist__page"
@@ -60,7 +63,7 @@ const Playlist = ({ spotifyApi }) => {
       >
         <Avatar
           /* playlistInfo?.image */
-          src={"playlistInfo.image"}
+          src={playlistInfo?.image}
           variant="square"
           alt="Bieber"
           sx={{
@@ -82,7 +85,7 @@ const Playlist = ({ spotifyApi }) => {
               color: "text.primary",
             }}
           >
-            {playlistInfo.name}
+            {playlistInfo?.name}
           </Typography>
         </Box>
       </Box>

@@ -1,6 +1,7 @@
-/* import React from "react";
+import React from "react";
 import { Avatar, Box, Typography, Grid, Skeleton } from "@mui/material";
 import { formatTime } from "../../utils/formatTime";
+
 const SongRow = ({
   images,
   title,
@@ -28,7 +29,7 @@ const SongRow = ({
       position,
     };
     await playSpecifiedSong(spotifyApi, song);
-  }; 
+  };
 
   return (
     <Grid
@@ -105,4 +106,3 @@ const SongRow = ({
 };
 
 export default SongRow;
- */
