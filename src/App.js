@@ -21,21 +21,23 @@ function App({ spotifyApi }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.playlist);
 
-  useEffect(() => {
-    const onMount = async () => {
-      const accessToken = getAccessToken();
+  const onMount = async () => {
+    let accessToken = getAccessToken();
+    if (getSessionStorage()) {
+      accessToken = getSessionStorage();
+    }
+    if (accessToken) {
+      setToken(accessToken);
+      sessionStorage.setItem("spotifyToken", accessToken);
+      await spotifyApi.setAccessToken(accessToken);
+      dispatch(getPlaylist(spotifyApi));
       window.location.hash = "";
-      if (accessToken) {
-        setToken(accessToken);
-        sessionStorage.setItem("spotifyToken", accessToken);
-        await spotifyApi.setAccessToken(accessToken);
-        dispatch(getPlaylist(spotifyApi));
-      }
-    };
+    }
+  };
+
+  useEffect(() => {
     onMount();
-    const accessToken = getAccessToken();
-    console.log(accessToken);
-  }, [token]);
+  }, []);
 
   return (
     <Box className="App">
