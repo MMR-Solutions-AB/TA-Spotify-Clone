@@ -17,36 +17,7 @@ const Player = ({ spotifyApi }) => {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
-
-  const transferPlayback = async (device_id) => {
-    await spotifyApi.transferMyPlayback([device_id], true);
-  };
-
-  /* 
- const handleScriptLoad = () => {
-    return new Promise(resolve => {
-      if (window.Spotify) {
-        resolve();
-      } else {
-        resolve(new window.Spotify.Player({
-          name: "Web Playback SDK",
-          getOAuthToken: (cb) => {
-            cb(token);
-          },
-          volume: 0.5,
-        }));
-      }
-    });
-  } */
-  /* 
-  window.onSpotifyWebPlaybackSDKReady = () => {
-    const player = new window.Spotify.Player({
-      name: "Web Playback SDK",
-      getOAuthToken: (cb) => {
-        cb(token);
-      },
-      volume: 0.5,
-    }); */
+  const [devid, setdevid] = useState(null);
 
   useEffect(() => {
     const token = getAccessTokenFromStorage();
@@ -55,7 +26,6 @@ const Player = ({ spotifyApi }) => {
     script.async = true;
     document.body.appendChild(script);
 
-    console.log(window.onSpotifyWebPlaybackSDKReady);
     /* ----------------------------------------------------------------- */
 
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -71,9 +41,9 @@ const Player = ({ spotifyApi }) => {
 
       /* ----------------------------------------------------------------- */
 
-      player.addListener("ready", async ({ device_id }) => {
+      player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", { device_id, player });
-        await spotifyApi.transferMyPlayback([device_id], true);
+        setdevid(device_id);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -88,8 +58,8 @@ const Player = ({ spotifyApi }) => {
         }
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
-
         player.getCurrentState().then((state) => {
+          console.log(state);
           !state ? setActive(false) : setActive(true);
         });
       });
@@ -97,10 +67,10 @@ const Player = ({ spotifyApi }) => {
 
       player.connect();
     };
-  }, []);
+  }, [spotifyApi]);
 
   const togglePlayer = () => {
-    localPlayer && localPlayer.togglePlay();
+    localPlayer.togglePlay();
   };
   const prevTrack = () => {
     localPlayer.previousTrack();
@@ -158,7 +128,6 @@ const Player = ({ spotifyApi }) => {
           <PlayerControlls player={localPlayer} />
         </Grid>
         {/* Volymy */}
-        <Button onClick={() => togglePlayer()}>Playit</Button>
       </Grid>
       {/* Overlay */}
     </Box>
