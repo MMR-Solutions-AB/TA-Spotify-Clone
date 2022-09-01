@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
-
 import { getAccessTokenFromStorage } from "../../utils/getAccessTokenFromStorage";
-import Playlist from "./components/pages/Playlist";
-import Library from "./components/pages/Library";
-import Home from "./components/pages/Home";
-import SideNav from "./components/SideNav/SideNav";
-import MobileNav from "./components/MobilNav/MobileNav";
-import Player from "./components/Player/Player";
 import { getPlaylist } from "./store/playlistSlice";
-import { useDispatch, useSelector } from "react-redux";
-const SpotifyExperience = ({spotifyApi}) => {
+import { useDispatch } from "react-redux";
+import Playlist from "../pages/Playlist";
+import SideNav from "../SideNav/SideNav";
+import Library from "../pages/Library";
+import Home from "../pages/Home";
+import Player from "../Player/Player";
+import MobileNav from "../MobilNav/MobileNav";
+const SpotifyExperience = ({ spotifyApi }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(true);
   const [token, setToken] = useState(null);
   const dispatch = useDispatch();
