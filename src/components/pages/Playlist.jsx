@@ -4,12 +4,22 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import SongTable from "../SongTable/SongTable";
+import { useCallback } from "react";
 
 const Playlist = ({ spotifyApi }) => {
   const [playlistInfo, setPlaylistInfo] = useState();
   const [songs, setSongs] = useState([]);
   const [status, setStatus] = useState({ isLoading: false, isError: null });
   const { id } = useParams();
+
+  const formatSongData = useCallback((songs) => {
+    return songs.map((song, i) => {
+      const { track } = song;
+      track.contextUri = `spotify:playlist:${id}`;
+      track.position = i;
+      return track;
+    });
+  },[id]);
 
   useEffect(() => {
     const getData = async () => {
@@ -32,16 +42,7 @@ const Playlist = ({ spotifyApi }) => {
     getData().finally(() => {
       setStatus((prev) => ({ ...prev, isLoading: false }));
     });
-  }, [id]);
-
-  const formatSongData = (songs) => {
-    return songs.map((song, i) => {
-      const { track } = song;
-      track.contextUri = `spotify:playlist:${id}`;
-      track.position = i;
-      return track;
-    });
-  };
+  }, [formatSongData, id, spotifyApi]);
 
   return (
     <Box

@@ -2,62 +2,32 @@ import { useEffect, useState } from "react";
 import Login from "./components/pages/Login";
 import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
-import Playlist from "./components/pages/Playlist";
-import Library from "./components/pages/Library";
-import Home from "./components/pages/Home";
-import SideNav from "./components/SideNav/SideNav";
-import MobileNav from "./components/MobilNav/MobileNav";
-import Player from "./components/Player/Player";
 import { getAccessToken } from "./utils/getAccesToken";
-import { getSessionStorage } from "./utils/getSessionStorage";
-import { getPlaylist } from "./store/playlistSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { getAccessTokenFromStorage } from "./utils/getAccessTokenFromStorage";
+import SpotifyExperience from "./components/SpotifyEx/SpotifyExperience";
 
 function App({ spotifyApi }) {
-  const [isPlayerReady, setIsPlayerReady] = useState(true);
-  const [token, setToken] = useState(getSessionStorage);
-  const dispatch = useDispatch();
-
-  const onMount = async () => {
-    let accessToken = getAccessToken();
-    if (getSessionStorage()) {
-      accessToken = getSessionStorage();
-    }
-    if (accessToken) {
-      setToken(accessToken);
-      sessionStorage.setItem("spotifyToken", accessToken);
-      await spotifyApi.setAccessToken(accessToken);
-      dispatch(getPlaylist(spotifyApi));
-      window.location.hash = "";
-    }
-  };
+  const [token, setToken] = useState(getAccessTokenFromStorage);
 
   useEffect(() => {
+    const onMount = async () => {
+      let accessToken = getAccessToken();
+      if (getAccessTokenFromStorage()) {
+        accessToken = getAccessTokenFromStorage();
+      }
+      if (accessToken) {
+        setToken(accessToken);
+        sessionStorage.setItem("spotifyToken", accessToken);
+        window.location.hash = "";
+      }
+    };
     onMount();
   }, []);
 
   return (
     <Box className="App">
       {token ? (
-        <Box
-          sx={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Box sx={{ flex: 1, overflowY: "auto", display: "flex" }}>
-            <SideNav />
-            <Routes>
-              <Route path="/playlist/:id" element={<Playlist spotifyApi={spotifyApi} />} />
-              <Route path="/library" element={<Library />} />
-              <Route path="/" element={<Home />} />
-            </Routes>
-          </Box>
-          {isPlayerReady && <Player />}
-          <MobileNav />
-        </Box>
+        <SpotifyExperience spotifyApi={spotifyApi} />
       ) : (
         <Routes>
           <Route path="*" element={<Login />} />
