@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography, Avatar, Button } from "@mui/material";
 import { getAccessTokenFromStorage } from "../../utils/getAccessTokenFromStorage";
 import PlayerControlls from "../PlayerControlls/PlayerControlls";
+import { useLayoutEffect } from "react";
 
 const Player = ({ spotifyApi }) => {
   const track = {
@@ -21,6 +22,32 @@ const Player = ({ spotifyApi }) => {
     await spotifyApi.transferMyPlayback([device_id], true);
   };
 
+  /* 
+ const handleScriptLoad = () => {
+    return new Promise(resolve => {
+      if (window.Spotify) {
+        resolve();
+      } else {
+        resolve(new window.Spotify.Player({
+          name: "Web Playback SDK",
+          getOAuthToken: (cb) => {
+            cb(token);
+          },
+          volume: 0.5,
+        }));
+      }
+    });
+  } */
+  /* 
+  window.onSpotifyWebPlaybackSDKReady = () => {
+    const player = new window.Spotify.Player({
+      name: "Web Playback SDK",
+      getOAuthToken: (cb) => {
+        cb(token);
+      },
+      volume: 0.5,
+    }); */
+
   useEffect(() => {
     const token = getAccessTokenFromStorage();
     const script = document.createElement("script");
@@ -28,6 +55,7 @@ const Player = ({ spotifyApi }) => {
     script.async = true;
     document.body.appendChild(script);
 
+    console.log(window.onSpotifyWebPlaybackSDKReady);
     /* ----------------------------------------------------------------- */
 
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -38,12 +66,14 @@ const Player = ({ spotifyApi }) => {
         },
         volume: 0.5,
       });
+
       setPlayer(player);
+
       /* ----------------------------------------------------------------- */
 
-      player.addListener("ready", ({ device_id }) => {
+      player.addListener("ready", async ({ device_id }) => {
         console.log("Ready with Device ID", { device_id, player });
-        transferPlayback(device_id);
+        await spotifyApi.transferMyPlayback([device_id], true);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
@@ -71,6 +101,12 @@ const Player = ({ spotifyApi }) => {
 
   const togglePlayer = () => {
     localPlayer && localPlayer.togglePlay();
+  };
+  const prevTrack = () => {
+    localPlayer.previousTrack();
+  };
+  const nextTrack = () => {
+    localPlayer.nextTrack();
   };
 
   return (
