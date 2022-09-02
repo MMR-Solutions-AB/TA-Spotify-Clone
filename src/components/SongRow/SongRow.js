@@ -1,6 +1,8 @@
 import React from "react";
 import { Avatar, Box, Typography, Grid, Skeleton } from "@mui/material";
 import { formatTime } from "../../utils/formatTime";
+import { playSongFromList } from "../../store/playerSlice";
+import { useDispatch } from "react-redux";
 
 const SongRow = ({
   images,
@@ -13,11 +15,10 @@ const SongRow = ({
   spotifyApi,
   contextUri,
   position,
-  playSpecifiedSong,
 }) => {
   const image = images?.length > 0 ? images[0] : null;
-
-  const onRowClick = async () => {
+  const dispatch = useDispatch();
+  const onRowClick = () => {
     const song = {
       context_uri: contextUri,
       offset: { position },
@@ -28,7 +29,7 @@ const SongRow = ({
       duration,
       position,
     };
-    await playSpecifiedSong(spotifyApi, song);
+    dispatch(playSongFromList({ spotifyApi, song }));
   };
 
   return (
@@ -42,6 +43,9 @@ const SongRow = ({
         fontSize: 14,
         cursor: "pointer",
         "&:hover": { bgcolor: "#F0790030" },
+      }}
+      onClick={() => {
+        onRowClick();
       }}
     >
       <Grid
