@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { PlayArrow, SkipNext, SkipPrevious, Pause } from "@mui/icons-material";
 import { IconButton, Grid, Stack, Typography, Slider } from "@mui/material";
-const PlayerControlls = ({ player }) => {
+const PlayerControlls = ({ player, is_paused }) => {
   const skipStyle = { width: 28, height: 28 };
 
   return (
@@ -19,7 +19,11 @@ const PlayerControlls = ({ player }) => {
         alignItems="center"
         sx={{ width: "100%" }}
       >
-        <IconButton size="small" sx={{ color: "text.primary" }}>
+        <IconButton
+          onClick={() => player.previousTrack()}
+          size="small"
+          sx={{ color: "text.primary" }}
+        >
           <SkipPrevious sx={skipStyle} />
         </IconButton>
         <IconButton
@@ -27,13 +31,17 @@ const PlayerControlls = ({ player }) => {
           size="small"
           sx={{ color: "text.primary" }}
         >
-          {true ? (
+          {is_paused ? (
             <Pause id="toggleplaybtn" sx={{ width: 38, height: 38 }} />
           ) : (
             <PlayArrow sx={{ width: 38, height: 38 }} />
           )}
         </IconButton>
-        <IconButton size="small" sx={{ color: "text.primary" }}>
+        <IconButton
+          onClick={() => player.nextTrack()}
+          size="small"
+          sx={{ color: "text.primary" }}
+        >
           <SkipNext sx={skipStyle} />
         </IconButton>
       </Stack>
