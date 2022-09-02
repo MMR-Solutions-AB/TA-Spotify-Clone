@@ -12,15 +12,21 @@ const Playlist = ({ spotifyApi }) => {
   const [status, setStatus] = useState({ isLoading: false, isError: null });
   const { id } = useParams();
 
-  const formatSongData = useCallback((songs) => {
-    return songs.map((song, i) => {
-      const { track } = song;
-      track.contextUri = `spotify:playlist:${id}`;
-      track.position = i;
-      return track;
-    });
-  },[id]);
+  /* Declearing function with useCallback to avoid unnecessary recreation of function */
+  const formatSongData = useCallback(
+    (songs) => {
+      return songs.map((song, i) => {
+        const { track } = song;
+        track.contextUri = `spotify:playlist:${id}`;
+        track.position = i;
+        return track;
+      });
+    },
+    [id]
+  );
 
+  //  Calling spotifyApi to revice playlist, playlist takes id from album ( set to URI in SideNav component)
+  // Using status handle https cycle
   useEffect(() => {
     const getData = async () => {
       setStatus((prev) => ({ ...prev, isLoading: true }));

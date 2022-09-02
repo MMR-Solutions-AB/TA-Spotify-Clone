@@ -9,6 +9,8 @@ import SpotifyExperience from "./components/SpotifyEx/SpotifyExperience";
 function App({ spotifyApi }) {
   const [token, setToken] = useState(getAccessTokenFromStorage);
 
+  // onMount, claming token from URI using getAccesToken function decleard in utils
+  // Setting token to sessionStorage using getAccessTokenFromStorage function decleard in utils
   useEffect(() => {
     const onMount = async () => {
       let accessToken = getAccessToken();
