@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Typography, Avatar, Button } from "@mui/material";
+import { Box, Grid, Typography, Avatar } from "@mui/material";
 import { getAccessTokenFromStorage } from "../../utils/getAccessTokenFromStorage";
 import PlayerControlls from "../PlayerControlls/PlayerControlls";
-import { useLayoutEffect } from "react";
 
 const Player = ({ spotifyApi }) => {
   const track = {
@@ -54,7 +53,6 @@ const Player = ({ spotifyApi }) => {
 
       player.addListener("player_state_changed", (state) => {
         if (!state) {
-          console.log("yoooodk");
           return;
         }
         setTrack(state.track_window.current_track);
@@ -75,6 +73,11 @@ const Player = ({ spotifyApi }) => {
         await spotifyApi.transferMyPlayback([devid], true);
       }
     };
+    const getDevice = async () => {
+      const res = await spotifyApi.getMyDevices();
+      console.log(res);
+    };
+    getDevice();
     getTranser();
   }, [devid]);
 
@@ -95,6 +98,8 @@ const Player = ({ spotifyApi }) => {
       console.error(message);
     });
   }
+
+  
 
   return (
     <Box>
@@ -120,8 +125,7 @@ const Player = ({ spotifyApi }) => {
         >
           <Avatar
             src={
-              current_track.album.images[0].url &&
-              current_track.album.images[0].url
+              current_track?.album.images[0].url
             }
             alt={"#"}
             variant="square"
@@ -129,10 +133,10 @@ const Player = ({ spotifyApi }) => {
           />
           <Box>
             <Typography sx={{ color: "text.primary", fontSize: 14 }}>
-              {current_track.name && current_track.name}
+              {current_track?.name}
             </Typography>
             <Typography sx={{ color: "text.secondary", fontSize: 12 }}>
-              {current_track.artists[0].name && current_track.artists[0].name}
+              {current_track?.artists[0].name}
             </Typography>
           </Box>
         </Grid>
@@ -145,7 +149,10 @@ const Player = ({ spotifyApi }) => {
             alignItems: "center",
           }}
         >
-          <PlayerControlls is_paused={is_paused} player={localPlayer} />
+          <PlayerControlls
+            is_paused={is_paused}
+            player={localPlayer}
+          />
         </Grid>
         {/* Volymy */}
       </Grid>
