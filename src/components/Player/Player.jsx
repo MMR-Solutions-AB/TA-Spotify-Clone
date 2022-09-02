@@ -41,7 +41,7 @@ const Player = ({ spotifyApi }) => {
 
       /* ----------------------------------------------------------------- */
 
-      player.addListener("ready", ({ device_id }) => {
+      player.addListener("ready", async ({ device_id }) => {
         console.log("Ready with Device ID", { device_id, player });
         setdevid(device_id);
       });
@@ -54,30 +54,47 @@ const Player = ({ spotifyApi }) => {
 
       player.addListener("player_state_changed", (state) => {
         if (!state) {
+          console.log("yoooodk");
           return;
         }
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
         player.getCurrentState().then((state) => {
-          console.log(state);
           !state ? setActive(false) : setActive(true);
         });
       });
       /* ----------------------------------------------------------------- */
-
+      addErrorListeners(player);
       player.connect();
     };
-  }, [spotifyApi]);
+  }, []);
 
-  const togglePlayer = () => {
-    localPlayer.togglePlay();
-  };
-  const prevTrack = () => {
-    localPlayer.previousTrack();
-  };
-  const nextTrack = () => {
-    localPlayer.nextTrack();
-  };
+  useEffect(() => {
+    const getTranser = async () => {
+      if (devid) {
+        await spotifyApi.transferMyPlayback([devid], true);
+      }
+    };
+    getTranser();
+  }, [devid]);
+
+  function addErrorListeners(player) {
+    player.addListener("not_ready", ({ device_id }) => {
+      console.log("Device ID has gone offline", device_id);
+    });
+
+    player.addListener("initialization_error", ({ message }) => {
+      console.error(message);
+    });
+
+    player.addListener("authentication_error", ({ message }) => {
+      console.error(message);
+    });
+
+    player.addListener("account_error", ({ message }) => {
+      console.error(message);
+    });
+  }
 
   return (
     <Box>
@@ -102,17 +119,20 @@ const Player = ({ spotifyApi }) => {
           }}
         >
           <Avatar
-            src={current_track.album.images[0].url}
+            src={
+              current_track.album.images[0].url &&
+              current_track.album.images[0].url
+            }
             alt={"#"}
             variant="square"
             sx={{ width: 56, height: 56, marginRight: 2 }}
           />
           <Box>
             <Typography sx={{ color: "text.primary", fontSize: 14 }}>
-              {current_track.name}
+              {current_track.name && current_track.name}
             </Typography>
             <Typography sx={{ color: "text.secondary", fontSize: 12 }}>
-              {current_track.artists[0].name}
+              {current_track.artists[0].name && current_track.artists[0].name}
             </Typography>
           </Box>
         </Grid>
@@ -125,7 +145,7 @@ const Player = ({ spotifyApi }) => {
             alignItems: "center",
           }}
         >
-          <PlayerControlls player={localPlayer} />
+          <PlayerControlls is_paused={is_paused} player={localPlayer} />
         </Grid>
         {/* Volymy */}
       </Grid>
