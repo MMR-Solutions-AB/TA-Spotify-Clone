@@ -8,6 +8,7 @@ const initialState = {
   albumList: [],
 };
 
+/* Handling state */
 export const playListSlice = createSlice({
   name: "playlist",
   initialState,
@@ -25,10 +26,11 @@ export const playListSlice = createSlice({
       .addCase(getPlaylist.rejected, (state, action) => {
         state.status.isLoading = false;
         state.status.isError = action.payload;
-      })
+      });
   },
 });
 
+/* Async function */
 export const getPlaylist = createAsyncThunk(
   "getPlaylist",
   async (spotifyApi, thunkAPI) => {
