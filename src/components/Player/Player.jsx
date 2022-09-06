@@ -99,8 +99,6 @@ const Player = ({ spotifyApi }) => {
     });
   }
 
-  
-
   return (
     <Box>
       <Grid
@@ -124,9 +122,7 @@ const Player = ({ spotifyApi }) => {
           }}
         >
           <Avatar
-            src={
-              current_track?.album.images[0].url
-            }
+            src={current_track?.album.images[0].url}
             alt={"#"}
             variant="square"
             sx={{ width: 56, height: 56, marginRight: 2 }}
@@ -149,10 +145,7 @@ const Player = ({ spotifyApi }) => {
             alignItems: "center",
           }}
         >
-          <PlayerControlls
-            is_paused={is_paused}
-            player={localPlayer}
-          />
+          <PlayerControlls is_paused={is_paused} player={localPlayer} />
         </Grid>
         {/* Volymy */}
       </Grid>

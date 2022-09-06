@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, List, Typography } from "@mui/material";
 
-
 const Library = () => {
   return (
     <Box
@@ -27,6 +26,5 @@ const Library = () => {
     </Box>
   );
 };
-
 
 export default Library;
