@@ -1,8 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { PlayArrow, SkipNext, SkipPrevious, Pause } from "@mui/icons-material";
-import { IconButton, Grid, Stack, Typography, Slider } from "@mui/material";
-const PlayerControlls = ({ player, is_paused }) => {
+import { IconButton, Stack, Typography, Slider } from "@mui/material";
+import { formatTime } from "../../utils/formatTime";
+import { useEffect } from "react";
+import { useState } from "react";
+const PlayerControls = ({ player, is_paused, duration, progress }) => {
   const skipStyle = { width: 28, height: 28 };
+  console.log(progress);
+  const [currentProgress, setCurrentProgress] = useState();
+
+
 
   return (
     <Stack
@@ -32,7 +39,7 @@ const PlayerControlls = ({ player, is_paused }) => {
           sx={{ color: "text.primary" }}
         >
           {is_paused ? (
-            <Pause id="toggleplaybtn" sx={{ width: 38, height: 38 }} />
+            <Pause sx={{ width: 38, height: 38 }} />
           ) : (
             <PlayArrow sx={{ width: 38, height: 38 }} />
           )}
@@ -55,15 +62,19 @@ const PlayerControlls = ({ player, is_paused }) => {
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
-        ></Typography>
-        <Slider min={0} size="medium" />
+        >
+          {formatTime(progress)}
+        </Typography>
+        <Slider max={duration} value={progress} min={0} size="medium" />
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
-        ></Typography>
+        >
+          {formatTime(duration)}
+        </Typography>
       </Stack>
     </Stack>
   );
 };
 
-export default PlayerControlls;
+export default PlayerControls;
