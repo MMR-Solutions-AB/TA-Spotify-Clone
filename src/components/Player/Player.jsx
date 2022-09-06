@@ -101,7 +101,7 @@ const Player = ({ spotifyApi }) => {
     };
     getDeviceFromApi();
     transferMyPlayback();
-  }, [device]);
+  }, [device, spotifyApi]);
 
   return (
     <Box>
