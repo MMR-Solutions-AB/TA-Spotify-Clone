@@ -18,6 +18,9 @@ const Player = ({ spotifyApi }) => {
   const [current_track, setTrack] = useState(track);
   const [devid, setdevid] = useState(null);
 
+  console.log("rad 21");
+  console.log(localPlayer);
+
   useEffect(() => {
     const token = getAccessTokenFromStorage();
     const script = document.createElement("script");
@@ -37,7 +40,6 @@ const Player = ({ spotifyApi }) => {
       });
 
       setPlayer(player);
-
       /* ----------------------------------------------------------------- */
 
       player.addListener("ready", async ({ device_id }) => {
@@ -55,11 +57,13 @@ const Player = ({ spotifyApi }) => {
         if (!state) {
           return;
         }
+        console.log("abbabababababa");
+        console.log(state);
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
-        player.getCurrentState().then((state) => {
-          !state ? setActive(false) : setActive(true);
-        });
+        // player.getCurrentState().then((state) => {
+        //   !state ? setActive(false) : setActive(true);
+        // });
       });
       /* ----------------------------------------------------------------- */
       addErrorListeners(player);
@@ -73,11 +77,11 @@ const Player = ({ spotifyApi }) => {
         await spotifyApi.transferMyPlayback([devid], true);
       }
     };
-    const getDevice = async () => {
-      const res = await spotifyApi.getMyDevices();
-      console.log(res);
-    };
-    getDevice();
+    // const getDevice = async () => {
+    //   const res = await spotifyApi.getMyDevices();
+    //   console.log(res);
+    // };
+    // getDevice();
     getTranser();
   }, [devid]);
 

@@ -3,6 +3,14 @@ import { PlayArrow, SkipNext, SkipPrevious, Pause } from "@mui/icons-material";
 import { IconButton, Grid, Stack, Typography, Slider } from "@mui/material";
 const PlayerControlls = ({ player, is_paused }) => {
   const skipStyle = { width: 28, height: 28 };
+  console.log("player in slider cuzzz");
+  console.log(player);
+
+  const [value, setValue] = React.useState(30);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <Stack
@@ -32,9 +40,9 @@ const PlayerControlls = ({ player, is_paused }) => {
           sx={{ color: "text.primary" }}
         >
           {is_paused ? (
-            <Pause id="toggleplaybtn" sx={{ width: 38, height: 38 }} />
-          ) : (
             <PlayArrow sx={{ width: 38, height: 38 }} />
+          ) : (
+            <Pause id="toggleplaybtn" sx={{ width: 38, height: 38 }} />
           )}
         </IconButton>
         <IconButton
@@ -55,12 +63,22 @@ const PlayerControlls = ({ player, is_paused }) => {
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
-        ></Typography>
-        <Slider min={0} size="medium" />
+        >
+          1:23
+        </Typography>
+        <Slider
+          min={0}
+          size="medium"
+          value={value}
+          onChange={handleChange}
+          max={100}
+        />
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
-        ></Typography>
+        >
+          3:45
+        </Typography>
       </Stack>
     </Stack>
   );
