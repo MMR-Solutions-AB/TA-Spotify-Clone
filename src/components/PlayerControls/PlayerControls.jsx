@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { PlayArrow, SkipNext, SkipPrevious, Pause } from "@mui/icons-material";
-import { IconButton, Grid, Stack, Typography, Slider } from "@mui/material";
-const PlayerControlls = ({ player, is_paused }) => {
+import { IconButton, Stack, Typography, Slider } from "@mui/material";
+import { formatTime } from "../../utils/formatTime";
+import { useEffect } from "react";
+import { useState } from "react";
+const PlayerControls = ({ player, is_paused, duration, progress }) => {
   const skipStyle = { width: 28, height: 28 };
-  console.log("player in slider cuzzz");
-  console.log(player);
-
-  const [value, setValue] = React.useState(30);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  console.log(progress);
+  const [currentProgress, setCurrentProgress] = useState();
 
   return (
     <Stack
@@ -64,24 +61,18 @@ const PlayerControlls = ({ player, is_paused }) => {
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
         >
-          1:23
+          {formatTime(progress)}
         </Typography>
-        <Slider
-          min={0}
-          size="medium"
-          value={value}
-          onChange={handleChange}
-          max={100}
-        />
+        <Slider max={duration} value={progress} min={0} size="medium" />
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
         >
-          3:45
+          {formatTime(duration)}
         </Typography>
       </Stack>
     </Stack>
   );
 };
 
-export default PlayerControlls;
+export default PlayerControls;
