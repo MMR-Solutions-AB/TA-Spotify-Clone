@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography, Avatar } from "@mui/material";
 import { getAccessTokenFromStorage } from "../../utils/getAccessTokenFromStorage";
-import PlayerControlls from "../PlayerControlls/PlayerControlls";
+import PlayerControls from "../PlayerControls/PlayerControls";
 
 const Player = ({ spotifyApi }) => {
   const track = {
@@ -16,7 +16,9 @@ const Player = ({ spotifyApi }) => {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
-  const [devid, setdevid] = useState(null);
+  const [device, setDevice] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [progress, setProgress] = useState(null);
 
   useEffect(() => {
     const token = getAccessTokenFromStorage();
@@ -27,6 +29,8 @@ const Player = ({ spotifyApi }) => {
 
     /* ----------------------------------------------------------------- */
 
+    
+
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
         name: "Web Playback SDK",
@@ -36,17 +40,33 @@ const Player = ({ spotifyApi }) => {
         volume: 0.5,
       });
 
-      setPlayer(player);
-
       /* ----------------------------------------------------------------- */
 
-      player.addListener("ready", async ({ device_id }) => {
+      player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", { device_id, player });
-        setdevid(device_id);
+        setDevice(device_id);
+        setPlayer(player);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
         console.log("Device ID has gone offline", device_id);
+      });
+      /* ----------------------------------------------------------------- */
+
+      player.addListener("not_ready", ({ device_id }) => {
+        console.log("Device ID has gone offline", device_id);
+      });
+
+      player.addListener("initialization_error", ({ message }) => {
+        console.error(message);
+      });
+
+      player.addListener("authentication_error", ({ message }) => {
+        console.error(message);
+      });
+
+      player.addListener("account_error", ({ message }) => {
+        console.error(message);
       });
 
       /* ----------------------------------------------------------------- */
@@ -55,6 +75,11 @@ const Player = ({ spotifyApi }) => {
         if (!state) {
           return;
         }
+        console.log(state);
+        const duration_ms = state.track_window.current_track.duration_ms / 1000;
+        const position_ms = state.position / 1000;
+        setDuration(duration_ms);
+        setProgress(position_ms);
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
         player.getCurrentState().then((state) => {
@@ -62,44 +87,24 @@ const Player = ({ spotifyApi }) => {
         });
       });
       /* ----------------------------------------------------------------- */
-      addErrorListeners(player);
       player.connect();
+      player.disconnect();
     };
+
   }, []);
 
   useEffect(() => {
-    const getTranser = async () => {
-      if (devid) {
-        await spotifyApi.transferMyPlayback([devid], true);
+    const transferMyPlayback = async () => {
+      if (device) {
+        await spotifyApi.transferMyPlayback([device], true);
       }
     };
-    const getDevice = async () => {
-      const res = await spotifyApi.getMyDevices();
-      console.log(res);
+    const getDeviceFromApi = async () => {
+      await spotifyApi.getMyDevices();
     };
-    getDevice();
-    getTranser();
-  }, [devid]);
-
-  function addErrorListeners(player) {
-    player.addListener("not_ready", ({ device_id }) => {
-      console.log("Device ID has gone offline", device_id);
-    });
-
-    player.addListener("initialization_error", ({ message }) => {
-      console.error(message);
-    });
-
-    player.addListener("authentication_error", ({ message }) => {
-      console.error(message);
-    });
-
-    player.addListener("account_error", ({ message }) => {
-      console.error(message);
-    });
-  }
-
-  
+    getDeviceFromApi();
+    transferMyPlayback();
+  }, [device]);
 
   return (
     <Box>
@@ -124,14 +129,13 @@ const Player = ({ spotifyApi }) => {
           }}
         >
           <Avatar
-            src={
-              current_track?.album.images[0].url
-            }
+            src={current_track?.album.images[0].url}
             alt={"#"}
             variant="square"
             sx={{ width: 56, height: 56, marginRight: 2 }}
           />
           <Box>
+            <h1 style={{color:'#FFFFFF'}}>{progress && progress}</h1>
             <Typography sx={{ color: "text.primary", fontSize: 14 }}>
               {current_track?.name}
             </Typography>
@@ -149,8 +153,10 @@ const Player = ({ spotifyApi }) => {
             alignItems: "center",
           }}
         >
-          <PlayerControlls
+          <PlayerControls
+            progress={progress}
             is_paused={is_paused}
+            duration={duration}
             player={localPlayer}
           />
         </Grid>
