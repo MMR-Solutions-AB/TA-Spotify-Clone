@@ -6,8 +6,25 @@ import { useEffect } from "react";
 import { useState } from "react";
 const PlayerControls = ({ player, is_paused, duration, progress }) => {
   const skipStyle = { width: 28, height: 28 };
-  console.log(progress);
-  const [currentProgress, setCurrentProgress] = useState();
+  const [currentProgress, setCurrentProgress] = useState(progress);
+  // console.log("biaaatch");
+
+  // console.log(progress);
+  // console.log(currentProgress);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!is_paused && player) {
+        setCurrentProgress((c) => c + 1);
+        // console.log("This will run every second!");
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [is_paused, player]);
+
+  useEffect(() => {
+    setCurrentProgress(progress);
+  }, [progress]);
 
   return (
     <Stack
@@ -25,7 +42,10 @@ const PlayerControls = ({ player, is_paused, duration, progress }) => {
         sx={{ width: "100%" }}
       >
         <IconButton
-          onClick={() => player.previousTrack()}
+          onClick={() => {
+            setCurrentProgress(0);
+            player.previousTrack();
+          }}
           size="small"
           sx={{ color: "text.primary" }}
         >
@@ -61,9 +81,23 @@ const PlayerControls = ({ player, is_paused, duration, progress }) => {
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}
         >
-          {formatTime(progress)}
+          {formatTime(currentProgress)}
         </Typography>
-        <Slider max={duration} value={progress} min={0} size="medium" />
+        <Slider
+          max={duration}
+          value={currentProgress}
+          // onChange={(_, value) => {
+          //   console.log("change it biatch: ", value);
+          // }}
+          onChangeCommitted={(e, value) => {
+            console.log("changed it for rela", value);
+            player.seek(value * 1000).then(() => {
+              console.log("Changed position!");
+            });
+          }}
+          min={0}
+          size="medium"
+        />
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 12 }}

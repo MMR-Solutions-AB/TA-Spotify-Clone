@@ -35,7 +35,7 @@ const Player = ({ spotifyApi }) => {
         getOAuthToken: (cb) => {
           cb(token);
         },
-        volume: 0.5,
+        volume: 0.2,
       });
 
       /* ----------------------------------------------------------------- */
@@ -70,7 +70,7 @@ const Player = ({ spotifyApi }) => {
       /* ----------------------------------------------------------------- */
 
       player.addListener("player_state_changed", (state) => {
-        if (!state) {
+        if (!state || !state.track_window?.current_track) {
           return;
         }
         console.log(state);
@@ -84,11 +84,21 @@ const Player = ({ spotifyApi }) => {
           !state ? setActive(false) : setActive(true);
         });
       });
+
+      setPlayer(player);
       /* ----------------------------------------------------------------- */
       player.connect();
       player.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!localPlayer) return;
+    localPlayer.connect();
+    return () => {
+      localPlayer.disconnect();
+    };
+  }, [localPlayer]);
 
   useEffect(() => {
     const transferMyPlayback = async () => {
@@ -132,7 +142,6 @@ const Player = ({ spotifyApi }) => {
             sx={{ width: 56, height: 56, marginRight: 2 }}
           />
           <Box>
-            <h1 style={{ color: "#FFFFFF" }}>{progress && progress}</h1>
             <Typography sx={{ color: "text.primary", fontSize: 14 }}>
               {current_track?.name}
             </Typography>
