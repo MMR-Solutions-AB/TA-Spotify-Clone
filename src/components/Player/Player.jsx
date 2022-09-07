@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography, Avatar } from "@mui/material";
 import { getAccessTokenFromStorage } from "../../utils/getAccessTokenFromStorage";
 import PlayerControls from "../PlayerControls/PlayerControls";
+import PlayerVolume from "../PlayerVolume/PlayerVolume";
 
 const Player = ({ spotifyApi }) => {
   const track = {
@@ -166,7 +167,7 @@ const Player = ({ spotifyApi }) => {
             player={localPlayer}
           />
         </Grid>
-        {/* Volymy */}
+        <PlayerVolume player={localPlayer} />
       </Grid>
       {/* Overlay */}
     </Box>

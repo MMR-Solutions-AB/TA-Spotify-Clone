@@ -4,6 +4,7 @@ import { IconButton, Stack, Typography, Slider } from "@mui/material";
 import { formatTime } from "../../utils/formatTime";
 import { useEffect } from "react";
 import { useState } from "react";
+
 const PlayerControls = ({ player, is_paused, duration, progress }) => {
   const skipStyle = { width: 28, height: 28 };
   const [currentProgress, setCurrentProgress] = useState(progress);
@@ -86,9 +87,10 @@ const PlayerControls = ({ player, is_paused, duration, progress }) => {
         <Slider
           max={duration}
           value={currentProgress}
-          // onChange={(_, value) => {
-          //   console.log("change it biatch: ", value);
-          // }}
+          onChange={(_, value) => {
+            setCurrentProgress(value);
+            console.log("change it biatch: ", value);
+          }}
           onChangeCommitted={(e, value) => {
             console.log("changed it for rela", value);
             player.seek(value * 1000).then(() => {
