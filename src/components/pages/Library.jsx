@@ -18,6 +18,7 @@ const Library = () => {
       <PlaylistItem key={i} {...playlist} loading={loading} />
     ));
   };
+
   return (
     <Box
       id="Library"
