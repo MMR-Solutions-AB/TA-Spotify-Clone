@@ -8,16 +8,11 @@ import { useState } from "react";
 const PlayerControls = ({ player, is_paused, duration, progress }) => {
   const skipStyle = { width: 28, height: 28 };
   const [currentProgress, setCurrentProgress] = useState(progress);
-  // console.log("biaaatch");
-
-  // console.log(progress);
-  // console.log(currentProgress);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (!is_paused && player) {
         setCurrentProgress((c) => c + 1);
-        // console.log("This will run every second!");
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -89,13 +84,9 @@ const PlayerControls = ({ player, is_paused, duration, progress }) => {
           value={currentProgress}
           onChange={(_, value) => {
             setCurrentProgress(value);
-            console.log("change it biatch: ", value);
           }}
           onChangeCommitted={(e, value) => {
-            console.log("changed it for rela", value);
-            player.seek(value * 1000).then(() => {
-              console.log("Changed position!");
-            });
+            player.seek(value * 1000);
           }}
           min={0}
           size="medium"

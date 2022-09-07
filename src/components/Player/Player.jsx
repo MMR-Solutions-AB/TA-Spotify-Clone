@@ -3,6 +3,7 @@ import { Box, Grid, Typography, Avatar } from "@mui/material";
 import { getAccessTokenFromStorage } from "../../utils/getAccessTokenFromStorage";
 import PlayerControls from "../PlayerControls/PlayerControls";
 import PlayerVolume from "../PlayerVolume/PlayerVolume";
+import PlayerOverlay from "../PlayerOverlay/PlayerOverlay";
 
 const Player = ({ spotifyApi }) => {
   const track = {
@@ -18,6 +19,7 @@ const Player = ({ spotifyApi }) => {
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [device, setDevice] = useState(null);
+  const [playerOverlayIsOpen, setPlayerOverlayIsOpen] = useState(false);
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(null);
 
@@ -47,27 +49,6 @@ const Player = ({ spotifyApi }) => {
         setPlayer(player);
       });
 
-      player.addListener("not_ready", ({ device_id }) => {
-        console.log("Device ID has gone offline", device_id);
-      });
-      /* ----------------------------------------------------------------- */
-
-      player.addListener("not_ready", ({ device_id }) => {
-        console.log("Device ID has gone offline", device_id);
-      });
-
-      player.addListener("initialization_error", ({ message }) => {
-        console.error(message);
-      });
-
-      player.addListener("authentication_error", ({ message }) => {
-        console.error(message);
-      });
-
-      player.addListener("account_error", ({ message }) => {
-        console.error(message);
-      });
-
       /* ----------------------------------------------------------------- */
 
       player.addListener("player_state_changed", (state) => {
@@ -89,7 +70,7 @@ const Player = ({ spotifyApi }) => {
       setPlayer(player);
       /* ----------------------------------------------------------------- */
       player.connect();
-      player.disconnect();
+      // player.disconnect();
     };
   }, []);
 
@@ -119,9 +100,13 @@ const Player = ({ spotifyApi }) => {
       <Grid
         container
         px={3}
+        onClick={() => {
+          setPlayerOverlayIsOpen((c) => !c);
+        }}
         sx={{
           bgcolor: "Background.paper",
           height: 100,
+          cursor: "pointer",
           width: "100%",
           borderTop: "1px solid #292929",
         }}
@@ -169,7 +154,15 @@ const Player = ({ spotifyApi }) => {
         </Grid>
         <PlayerVolume player={localPlayer} />
       </Grid>
-      {/* Overlay */}
+      <PlayerOverlay
+        progress={progress}
+        is_paused={is_paused}
+        duration={duration}
+        player={localPlayer}
+        playerOverlayIsOpen={playerOverlayIsOpen}
+        closeOverlay={() => setPlayerOverlayIsOpen(false)}
+        current_track={current_track}
+      />
     </Box>
   );
 };
