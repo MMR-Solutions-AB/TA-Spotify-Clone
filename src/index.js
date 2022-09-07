@@ -10,8 +10,8 @@ import { store } from "./store/store";
 import SpotifyWebApi from "spotify-web-api-node";
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: "d5c0f95ce6054352b55c2de78e9f17a1",
-  clientSecret: "f141ced4aeed4cba9dce2273f1ff3e30",
+  clientId: "0e1113dcd8d74446951d82012e867c1f",
+  clientSecret: "532724a40bd04841ba231acb477ddb22",
   redirectUri: "http://localhost:3000/",
 });
 

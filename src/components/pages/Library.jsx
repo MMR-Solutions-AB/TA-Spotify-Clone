@@ -4,17 +4,18 @@ import { useSelector } from "react-redux";
 import PlaylistItem from "../PlaylistItem/PlaylistItem";
 
 const Library = () => {
-  const { status, albumList } = useSelector((state) => state.playlist);
-  console.log(albumList);
+  const state = useSelector((state) => state.playlist);
+  const loading = state.status.isLoading;
 
   const renderPlaylistItems = () => {
-    if (status.isLoading)
-      return [1, 2, 3, 4, 5, 6, 7].map((_, i) => (
-        <PlaylistItem key={i} loading={status.isLoading} />
+    if (loading) {
+      return [1, 2, 3, 4, 5, 6, 7].map((playlist, i) => (
+        <PlaylistItem key={i} loading={loading} />
       ));
+    }
 
-    return albumList.map((playlist, i) => (
-      <PlaylistItem key={i} {...playlist} isLoading={status.isLoading} />
+    return state.albumList.map((playlist, i) => (
+      <PlaylistItem key={i} {...playlist} loading={loading} />
     ));
   };
 

@@ -1,16 +1,16 @@
 import React from "react";
 import { Box, Grid, Divider } from "@mui/material";
 import { AccessTimeRounded } from "@mui/icons-material";
-import SongRow from '../SongRow/SongRow'
+import SongRow from "../SongRow/SongRow";
 
 const SongTable = ({ songs, loading, spotifyApi }) => {
-   const renderSongs = () => {
+  const renderSongs = () => {
     if (loading) {
       return [1, 2, 3, 4, 5, 6].map((el, i) => (
         <SongRow loading={loading} key={i} i={i} images={{}} />
       ));
-    } 
- 
+    }
+
     return songs.map((song, i) => {
       const albumName = song.album.name;
       const images = song.album.images;
@@ -33,7 +33,7 @@ const SongTable = ({ songs, loading, spotifyApi }) => {
         />
       );
     });
-  }; 
+  };
 
   return (
     <Box
@@ -83,7 +83,7 @@ const SongTable = ({ songs, loading, spotifyApi }) => {
         <Divider sx={{ width: "100%", height: 1 }} />
       </Box>
       {}
-       {renderSongs()}
+      {renderSongs()}
     </Box>
   );
 };

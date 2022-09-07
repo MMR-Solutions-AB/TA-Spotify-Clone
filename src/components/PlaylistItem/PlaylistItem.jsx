@@ -3,16 +3,18 @@ import {
   ListItem,
   ListItemButton,
   ListItemAvatar,
+  Box
   Avatar,
   ListItemText,
   Skeleton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const PlaylistItem = ({ name, images, id, isLoading }) => {
+const PlaylistItem = ({ name, images, id, loading }) => {
   const navigate = useNavigate();
 
-  if (isLoading) {
+  if (loading) {
+
     return (
       <ListItem disablePadding>
         <ListItemButton>
