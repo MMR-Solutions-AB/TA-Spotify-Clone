@@ -1,7 +1,23 @@
 import React from "react";
 import { Box, List, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import PlaylistItem from "../PlaylistItem/PlaylistItem";
 
 const Library = () => {
+  const state = useSelector((state) => state.playlist);
+  const loading = state.status.isLoading;
+
+  const renderPlaylistItems = () => {
+    if (loading) {
+      return [1, 2, 3, 4, 5, 6, 7].map((playlist, i) => (
+        <PlaylistItem key={i} loading={loading} />
+      ));
+    }
+
+    return state.albumList.map((playlist, i) => (
+      <PlaylistItem key={i} {...playlist} loading={loading} />
+    ));
+  };
   return (
     <Box
       id="Library"
@@ -22,7 +38,7 @@ const Library = () => {
       >
         Ditt bibliotek
       </Typography>
-      <List>List to be seen</List>
+      <List>{renderPlaylistItems()}</List>
     </Box>
   );
 };
