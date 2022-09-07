@@ -6,7 +6,7 @@ const VolumeControls = ({ player }) => {
   const defaultVolume = 50;
   const [volume, setVolume] = useState(defaultVolume);
 
-  const handleVolumeChange = async (e, v) => {
+  const handleVolumeChange = async (v) => {
     try {
       await player.setVolume(v / 100);
     } catch (err) {
@@ -43,9 +43,7 @@ const VolumeControls = ({ player }) => {
           step={1}
           value={volume}
           onChange={(e, v) => setVolume(v)}
-          onChangeCommitted={async (event, value) =>
-            handleVolumeChange(event, value)
-          }
+          onChangeCommitted={async (_, value) => handleVolumeChange(value)}
         />
       </Stack>
     </Grid>
