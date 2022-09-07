@@ -17,7 +17,7 @@ const PlayerOverlay = ({
       id="PlayerOverlay"
       sx={{
         width: "100%",
-        height: "calc(100vh - 81px)",
+        height: "calc(100vh)",
         bgcolor: "background.paper",
         display: { xs: "block", md: "none" },
         position: "fixed",
@@ -50,7 +50,9 @@ const PlayerOverlay = ({
           >
             <IconButton
               onClick={() => closeOverlay()}
-              sx={{ position: "absolute", paddingLeft: "0px" }}
+              sx={{
+                paddingLeft: "0px",
+              }}
             >
               <KeyboardArrowDownIcon
                 fontSize="large"

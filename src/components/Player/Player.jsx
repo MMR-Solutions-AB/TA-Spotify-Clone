@@ -106,7 +106,7 @@ const Player = ({ spotifyApi }) => {
         sx={{
           bgcolor: "Background.paper",
           height: 100,
-          cursor: "pointer",
+          cursor: { xs: "pointer", md: "auto" },
           width: "100%",
           borderTop: "1px solid #292929",
         }}
