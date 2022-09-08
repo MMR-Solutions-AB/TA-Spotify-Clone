@@ -1,21 +1,20 @@
 import React from "react";
 import { Box, List, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import PlaylistItem from "../PlaylistItem/PlaylistItem";
+import PlaylistItem from "../components/PlaylistItem/PlaylistItem";
 
 const Library = () => {
-  const state = useSelector((state) => state.playlist);
-  const loading = state.status.isLoading;
+  const {status, albumList} = useSelector((state) => state.playlist);
 
   const renderPlaylistItems = () => {
-    if (loading) {
-      return [1, 2, 3, 4, 5, 6, 7].map((playlist, i) => (
-        <PlaylistItem key={i} loading={loading} />
+    if (status.isLoading) {
+      return [1, 2, 3, 4, 5, 6, 7].map((_, i) => (
+        <PlaylistItem key={i} loading={status.isLoading} />
       ));
     }
 
-    return state.albumList.map((playlist, i) => (
-      <PlaylistItem key={i} {...playlist} loading={loading} />
+    return albumList.map((playlist, i) => (
+      <PlaylistItem key={i} {...playlist} loading={status.isLoading} />
     ));
   };
 

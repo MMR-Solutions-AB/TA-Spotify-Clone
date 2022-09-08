@@ -3,7 +3,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemAvatar,
-  Box
   Avatar,
   ListItemText,
   Skeleton,

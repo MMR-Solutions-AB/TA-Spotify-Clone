@@ -1,7 +1,6 @@
 import { Box, Typography, Grid, IconButton, Container } from "@mui/material";
 import PlayerControls from "../PlayerControls/PlayerControls";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { connect } from "react-redux";
 
 const PlayerOverlay = ({
   progress,
@@ -98,16 +97,3 @@ const PlayerOverlay = ({
 };
 
 export default PlayerOverlay;
-
-// const mapState = (state) => {
-//   const { playerOverlayOpen, title, artist, image } = state.player;
-//   return { playerOverlayOpen, title, artist, image };
-// };
-
-// const mapDispatch = (dispatch) => {
-//   return {
-//     closeOverlay: () => dispatch(closeOverlay()),
-//   };
-// };
-
-// export default connect(mapState, mapDispatch)(PlayerOverlay);

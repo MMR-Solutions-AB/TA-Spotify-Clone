@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Login from "./components/pages/Login";
+import Login from "./pages/Login";
 import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import { getAccessToken } from "./utils/getAccesToken";
