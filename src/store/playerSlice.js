@@ -13,7 +13,6 @@ const initialState = {
   playerOverlayOpen: false,
 };
 
-/* Handling state */
 export const playerSlice = createSlice({
   name: "player",
   initialState,
@@ -36,7 +35,7 @@ export const playerSlice = createSlice({
   },
 });
 
-/* Async function */
+
 export const playSongFromList = createAsyncThunk(
   "playSongFromList",
   async (payload, thunkAPI) => {

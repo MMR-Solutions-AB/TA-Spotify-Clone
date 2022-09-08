@@ -3,7 +3,7 @@ import { Avatar, Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import SongTable from "../SongTable/SongTable";
+import SongTable from "../components/SongTable/SongTable";
 import { useCallback } from "react";
 
 const Playlist = ({ spotifyApi }) => {
@@ -12,7 +12,6 @@ const Playlist = ({ spotifyApi }) => {
   const [status, setStatus] = useState({ isLoading: false, isError: null });
   const { id } = useParams();
 
-  /* Declearing function with useCallback to avoid unnecessary recreation of function */
   const formatSongData = useCallback(
     (songs) => {
       return songs.map((song, i) => {
@@ -25,8 +24,6 @@ const Playlist = ({ spotifyApi }) => {
     [id]
   );
 
-  //  Calling spotifyApi to revice playlist, playlist takes id from album ( set to URI in SideNav component)
-  // Using status handle https cycle
   useEffect(() => {
     const getData = async () => {
       setStatus((prev) => ({ ...prev, isLoading: true }));
@@ -50,6 +47,9 @@ const Playlist = ({ spotifyApi }) => {
     });
   }, [formatSongData, id, spotifyApi]);
 
+
+
+  
   return (
     <Box
       id="Playlist__page"

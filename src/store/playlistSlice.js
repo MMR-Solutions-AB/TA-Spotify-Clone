@@ -8,7 +8,7 @@ const initialState = {
   albumList: [],
 };
 
-/* Handling state */
+
 export const playListSlice = createSlice({
   name: "playlist",
   initialState,
@@ -30,7 +30,7 @@ export const playListSlice = createSlice({
   },
 });
 
-/* Async function */
+
 export const getPlaylist = createAsyncThunk(
   "getPlaylist",
   async (spotifyApi, thunkAPI) => {

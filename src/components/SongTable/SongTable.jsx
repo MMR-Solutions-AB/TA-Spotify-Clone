@@ -6,7 +6,7 @@ import SongRow from "../SongRow/SongRow";
 const SongTable = ({ songs, loading, spotifyApi }) => {
   const renderSongs = () => {
     if (loading) {
-      return [1, 2, 3, 4, 5, 6].map((el, i) => (
+      return [1, 2, 3, 4, 5, 6].map((_, i) => (
         <SongRow loading={loading} key={i} i={i} images={{}} />
       ));
     }

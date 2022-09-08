@@ -7,16 +7,16 @@ import { useSelector } from "react-redux";
 import NavPlaylist from "../NavPlaylist/NavPlaylist";
 
 const SideNav = () => {
-  const state = useSelector((state) => state.playlist);
+  const {status, albumList} = useSelector((state) => state.playlist);
 
   const renderPlaylist = () => {
-    if (state.status.isLoading) {
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((e, idx) => {
-        return <NavPlaylist key={idx} loading={state.status.isLoading} />;
+    if (status.isLoading) {
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, idx) => {
+        return <NavPlaylist key={idx} loading={status.isLoading} />;
       });
     }
-    return state.albumList.map((playlist, idx) => {
-      return <NavPlaylist key={idx} id={playlist.id} name={playlist.name} />;
+    return albumList.map((playlist, idx) => {
+      return <NavPlaylist key={idx} id={playlist.id} loading={status.isLoading} name={playlist.name} />;
     });
   };
 
@@ -38,7 +38,6 @@ const SideNav = () => {
       <Box px={3} py={1}>
         <Divider sx={{ backgroundColor: "#ffffff40" }} />
       </Box>
-      {/* renderPlaylists */}
       <Box sx={{ overflowY: "auto", flex: 1 }}>{renderPlaylist()}</Box>
     </Box>
   );
