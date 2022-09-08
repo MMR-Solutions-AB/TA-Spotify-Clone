@@ -16,7 +16,7 @@ const PlayerOverlay = ({
       id="PlayerOverlay"
       sx={{
         width: "100%",
-        height: "calc(100vh)",
+        height: "100vh",
         bgcolor: "background.paper",
         display: { xs: "block", md: "none" },
         position: "fixed",

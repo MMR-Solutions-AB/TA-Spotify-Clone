@@ -15,7 +15,7 @@ const MobileNav = () => {
         sx={{ bgcolor: "background.paper" }}
         showLabels
         value={value}
-        onChange={(event, newValue) => {
+        onChange={(_, newValue) => {
           setValue(newValue);
         }}
       >

@@ -9,21 +9,15 @@ import SpotifyExperience from "./components/SpotifyEx/SpotifyExperience";
 function App({ spotifyApi }) {
   const [token, setToken] = useState(getAccessTokenFromStorage);
 
-  // onMount, claming token from URI using getAccesToken function decleard in utils
-  // Setting token to sessionStorage using getAccessTokenFromStorage function decleard in utils
   useEffect(() => {
-    const onMount = async () => {
-      let accessToken = getAccessToken();
-      if (getAccessTokenFromStorage()) {
-        accessToken = getAccessTokenFromStorage();
-      }
-      if (accessToken) {
-        setToken(accessToken);
-        sessionStorage.setItem("spotifyToken", accessToken);
-        window.location.hash = "";
-      }
-    };
-    onMount();
+    // setting the accessToken to token from session storage or from the url
+    let accessToken = getAccessTokenFromStorage() || getAccessToken();
+
+    if (accessToken) {
+      setToken(accessToken);
+      sessionStorage.setItem("spotifyToken", accessToken);
+      window.location.hash = "";
+    }
   }, []);
 
   return (

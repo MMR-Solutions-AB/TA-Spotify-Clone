@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import PlaylistItem from "../components/PlaylistItem/PlaylistItem";
 
 const Library = () => {
-  const {status, albumList} = useSelector((state) => state.playlist);
+  const { status, albumList } = useSelector((state) => state.playlist);
 
   const renderPlaylistItems = () => {
     if (status.isLoading) {

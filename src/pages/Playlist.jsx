@@ -47,9 +47,6 @@ const Playlist = ({ spotifyApi }) => {
     });
   }, [formatSongData, id, spotifyApi]);
 
-
-
-  
   return (
     <Box
       id="Playlist__page"

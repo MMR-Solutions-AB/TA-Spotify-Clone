@@ -8,7 +8,6 @@ const initialState = {
   albumList: [],
 };
 
-
 export const playListSlice = createSlice({
   name: "playlist",
   initialState,
@@ -29,7 +28,6 @@ export const playListSlice = createSlice({
       });
   },
 });
-
 
 export const getPlaylist = createAsyncThunk(
   "getPlaylist",

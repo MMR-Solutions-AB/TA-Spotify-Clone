@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { getAccessTokenFromStorage } from "../../utils/getAccessTokenFromStorage";
 import { getPlaylist } from "../../store/playlistSlice";
 import { useDispatch } from "react-redux";
-import Playlist from "../../pages/Playlist"
+import Playlist from "../../pages/Playlist";
 import SideNav from "../SideNav/SideNav";
 import Library from "../../pages/Library";
 import Home from "../../pages/Home";

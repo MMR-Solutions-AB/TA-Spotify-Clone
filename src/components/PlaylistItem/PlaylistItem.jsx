@@ -13,7 +13,6 @@ const PlaylistItem = ({ name, images, id, loading }) => {
   const navigate = useNavigate();
 
   if (loading) {
-
     return (
       <ListItem disablePadding>
         <ListItemButton>

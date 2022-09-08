@@ -1,13 +1,12 @@
 import React from "react";
 import { Box, Divider } from "@mui/material";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import NavItem from "../NavItem/NavItem";
 import { useSelector } from "react-redux";
 import NavPlaylist from "../NavPlaylist/NavPlaylist";
 
 const SideNav = () => {
-  const {status, albumList} = useSelector((state) => state.playlist);
+  const { status, albumList } = useSelector((state) => state.playlist);
 
   const renderPlaylist = () => {
     if (status.isLoading) {
@@ -16,7 +15,14 @@ const SideNav = () => {
       });
     }
     return albumList.map((playlist, idx) => {
-      return <NavPlaylist key={idx} id={playlist.id} loading={status.isLoading} name={playlist.name} />;
+      return (
+        <NavPlaylist
+          key={idx}
+          id={playlist.id}
+          loading={status.isLoading}
+          name={playlist.name}
+        />
+      );
     });
   };
 
@@ -34,7 +40,6 @@ const SideNav = () => {
         <img src="/Spotify_Logo.png" width={"75%"} alt="Spotify" />
       </Box>
       <NavItem name="Home" Icon={HomeRoundedIcon} target="/" active />
-      <NavItem name="Search" Icon={SearchRoundedIcon} target="/search" />
       <Box px={3} py={1}>
         <Divider sx={{ backgroundColor: "#ffffff40" }} />
       </Box>

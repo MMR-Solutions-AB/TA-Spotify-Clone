@@ -8,11 +8,12 @@ import { BrowserRouter } from "react-router-dom";
 import { themeOptions } from "./theme/material-theme";
 import { store } from "./store/store";
 import SpotifyWebApi from "spotify-web-api-node";
+import { redirectURL } from "./config/config";
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: "0e1113dcd8d74446951d82012e867c1f",
-  clientSecret: "532724a40bd04841ba231acb477ddb22",
-  redirectUri: "http://localhost:3000/",
+  clientId: process.env.REACT_APP_CLIENT_ID,
+  clientSecret: process.env.REACT_APP_CLIENT_SECRET,
+  redirectUri: redirectURL,
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

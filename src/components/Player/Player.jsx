@@ -16,7 +16,6 @@ const Player = ({ spotifyApi }) => {
 
   const [localPlayer, setPlayer] = useState(undefined);
   const [is_paused, setPaused] = useState(false);
-  const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
   const [device, setDevice] = useState(null);
   const [playerOverlayIsOpen, setPlayerOverlayIsOpen] = useState(false);
@@ -30,26 +29,20 @@ const Player = ({ spotifyApi }) => {
     script.async = true;
     document.body.appendChild(script);
 
-    /* ----------------------------------------------------------------- */
-
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
         name: "Web Playback SDK",
         getOAuthToken: (cb) => {
           cb(token);
         },
-        volume: 0.2,
+        volume: 0.5,
       });
-
-      /* ----------------------------------------------------------------- */
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", { device_id, player });
         setDevice(device_id);
         setPlayer(player);
       });
-
-      /* ----------------------------------------------------------------- */
 
       player.addListener("player_state_changed", (state) => {
         if (!state || !state.track_window?.current_track) {
@@ -62,15 +55,10 @@ const Player = ({ spotifyApi }) => {
         setProgress(position_ms);
         setTrack(state.track_window.current_track);
         setPaused(state.paused);
-        player.getCurrentState().then((state) => {
-          !state ? setActive(false) : setActive(true);
-        });
       });
 
       setPlayer(player);
-      /* ----------------------------------------------------------------- */
       player.connect();
-      // player.disconnect();
     };
   }, []);
 

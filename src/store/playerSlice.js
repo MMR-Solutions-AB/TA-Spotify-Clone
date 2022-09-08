@@ -35,7 +35,6 @@ export const playerSlice = createSlice({
   },
 });
 
-
 export const playSongFromList = createAsyncThunk(
   "playSongFromList",
   async (payload, thunkAPI) => {
