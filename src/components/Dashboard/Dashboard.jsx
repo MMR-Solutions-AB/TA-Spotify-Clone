@@ -7,8 +7,10 @@ import { useDispatch } from 'react-redux'
 import { getPlaylist } from '../../store/playlistSlice'
 import { getAccessTokenFromStorage } from '../../utils/getAccessTokenFromStorage'
 import Playlist from '../../pages/Playlist'
+import Player from '../Player/Player'
 
 const Dashboard = ({ spotifyApi }) => {
+	const [token, setToken] = useState(null)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -20,9 +22,11 @@ const Dashboard = ({ spotifyApi }) => {
 		}
 
 		if (accessToken) {
+			setToken(accessToken)
 			onMount()
 		}
 	}, [])
+
 	return (
 		<Box
 			sx={{
@@ -40,6 +44,7 @@ const Dashboard = ({ spotifyApi }) => {
 					<Route path="/" element={<Home />} />
 				</Routes>
 			</Box>
+			{token && <Player spotifyApi={spotifyApi} />}
 		</Box>
 	)
 }
