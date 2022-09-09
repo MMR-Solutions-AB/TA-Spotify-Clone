@@ -20,8 +20,6 @@ function App({ spotifyApi }) {
 		}
 	}, [])
 
-	console.log('token: ', token)
-
 	return (
 		<Box className="App">
 			{token ? (
