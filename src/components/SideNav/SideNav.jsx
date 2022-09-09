@@ -6,9 +6,8 @@ import { useSelector } from 'react-redux'
 import NavPlaylist from '../NavPlaylist/NavPlaylist'
 
 const SideNav = () => {
-	const data = useSelector((state) => state.playlist)
-	const { status, albumList } = data
-	console.log(data)
+	const { status, albumList } = useSelector((state) => state.playlist)
+
 	const renderPlaylist = () => {
 		if (status.isLoading) {
 			return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, idx) => {
