@@ -1,0 +1,14 @@
+.playing-bar {
+	--delay: 1;
+	animation: 400ms bounce infinite linear alternate-reverse;
+	animation-delay: calc(var(--delay) * -300ms);
+}
+
+@keyframes bounce {
+	from {
+		height: 16px;
+	}
+	to {
+		height: 6px;
+	}
+}

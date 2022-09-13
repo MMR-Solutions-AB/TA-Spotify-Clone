@@ -9,6 +9,7 @@ const initialState = {
 	device_id: null,
 	title: null,
 	artist: null,
+	id: null,
 	image: null,
 	playerOverlayOpen: false
 }
@@ -16,6 +17,18 @@ const initialState = {
 export const playerSlice = createSlice({
 	name: 'player',
 	initialState,
+	reducers: {
+		setCurrentSong(state, action) {
+			const { current_track } = action.payload
+			const newTrack = {
+				title: current_track?.name,
+				artist: current_track?.artists[0].name,
+				image: current_track?.album.images[0].url,
+				id: current_track?.id
+			}
+			return { ...state, ...newTrack }
+		}
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(playSongFromList.fulfilled, (state, action) => {
@@ -56,4 +69,4 @@ export const playSongFromList = createAsyncThunk('playSongFromList', async (payl
 
 export default playerSlice.reducer
 
-export const { addDevice } = playerSlice.actions
+export const { addDevice, setCurrentSong } = playerSlice.actions

@@ -4,6 +4,8 @@ import { getAccessTokenFromStorage } from '../../utils/getAccessTokenFromStorage
 import PlayerControls from '../PlayerControls/PlayerControls'
 import PlayerVolume from '../PlayerVolume/PlayerVolume'
 import PlayerOverlay from '../PlayerOverlay/PlayerOverlay'
+import { setCurrentSong } from '../../store/playerSlice'
+import { useDispatch } from 'react-redux'
 
 const Player = ({ spotifyApi }) => {
 	const track = {
@@ -21,6 +23,7 @@ const Player = ({ spotifyApi }) => {
 	const [duration, setDuration] = useState(null)
 	const [progress, setProgress] = useState(null)
 	const [playerOverlayIsOpen, setPlayerOverlayIsOpen] = useState(false)
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		const token = getAccessTokenFromStorage()
@@ -48,7 +51,7 @@ const Player = ({ spotifyApi }) => {
 				if (!state || !state.track_window?.current_track) {
 					return
 				}
-				console.log(state)
+
 				const duration_ms = state.track_window.current_track.duration_ms / 1000
 				const position_ms = state.position / 1000
 				setDuration(duration_ms)
@@ -71,6 +74,10 @@ const Player = ({ spotifyApi }) => {
 	}, [localPlayer])
 
 	useEffect(() => {
+		dispatch(setCurrentSong({ current_track }))
+	}, [current_track])
+
+	useEffect(() => {
 		const transferMyPlayback = async () => {
 			if (device) {
 				await spotifyApi.transferMyPlayback([device], true)
@@ -82,9 +89,6 @@ const Player = ({ spotifyApi }) => {
 		getDeviceFromApi()
 		transferMyPlayback()
 	}, [device, spotifyApi])
-
-	console.log('track')
-	console.log(current_track)
 
 	return (
 		<Box>
