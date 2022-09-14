@@ -1,9 +1,11 @@
 import React from 'react'
 import { Box, Divider } from '@mui/material'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
+import ListIcon from '@mui/icons-material/List'
 import NavItem from '../NavItem/NavItem'
 import { useSelector } from 'react-redux'
 import NavPlaylist from '../NavPlaylist/NavPlaylist'
+import { useMatch } from 'react-router-dom'
 
 const SideNav = () => {
 	const { status, albumList } = useSelector((state) => state.playlist)
@@ -32,7 +34,8 @@ const SideNav = () => {
 			<Box p={3}>
 				<img src="/Spotify_Logo.png" width={'75%'} alt="Spotify" />
 			</Box>
-			<NavItem name="Home" Icon={HomeRoundedIcon} target="/" active />
+			<NavItem name="Home" Icon={HomeRoundedIcon} target="/" active={useMatch('/')} />
+			<NavItem name="Library" Icon={ListIcon} target="/library" active={useMatch('/library')} />
 			<Box px={3} py={1}>
 				<Divider sx={{ backgroundColor: '#ffffff40' }} />
 			</Box>
