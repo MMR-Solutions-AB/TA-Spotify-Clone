@@ -35,7 +35,7 @@ const SideNav = () => {
 				<img src="/Spotify_Logo.png" width={'75%'} alt="Spotify" />
 			</Box>
 			<NavItem name="Home" Icon={HomeRoundedIcon} target="/" active={useMatch('/')} />
-			<NavItem name="Library" Icon={ListIcon} target="/library" active={useMatch('/library')} />
+			<NavItem name="Ditt bibliotek" Icon={ListIcon} target="/library" active={useMatch('/library')} />
 			<Box px={3} py={1}>
 				<Divider sx={{ backgroundColor: '#ffffff40' }} />
 			</Box>
