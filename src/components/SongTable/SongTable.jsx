@@ -2,8 +2,11 @@ import React from 'react'
 import { Box, Grid, Divider } from '@mui/material'
 import { AccessTimeRounded } from '@mui/icons-material'
 import SongRow from '../SongRow/SongRow'
+import { useSelector } from 'react-redux'
 
 const SongTable = ({ songs, loading, spotifyApi }) => {
+	const playingState = useSelector((state) => state.player)
+
 	const renderSongs = () => {
 		if (loading) {
 			return [1, 2, 3, 4, 5, 6].map((_, i) => <SongRow loading={loading} key={i} i={i} images={{}} />)
@@ -19,6 +22,7 @@ const SongTable = ({ songs, loading, spotifyApi }) => {
 					duration={song.duration_ms / 1000}
 					key={i}
 					i={i}
+					isPlaying={song.id === playingState.id}
 					position={song.position}
 					contextUri={song.contextUri}
 					spotifyApi={spotifyApi}
