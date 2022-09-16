@@ -16,7 +16,7 @@ const Home = () => {
 	const [gradientColor, setGradientColor] = useState(initialState)
 
 	/* Function takes 2 arguments, the event has a property called "_reactName" witch describes the event. (try console.log(event)) */
-	/* The event is being describe in the technology component as a attribute in the HTML. We listen to this event and set onHover the color the the props thats passed down */
+	/* The event is being describe in the technology component as a attribute in the HTML. We listen to this event and set the color onHover event */
 	/* This is how we can change background color when hover over specific card. */
 	const changeColorOnHover = (event, color) => {
 		if (event._reactName === 'onMouseEnter') {
@@ -115,7 +115,7 @@ const linkStyle = {
 	display: 'flex',
 	justifyContent: 'space-around',
 	alignItems: 'center',
-	gap: '10px'
+	gap: '10px',
 }
 
 const linkBox = {
