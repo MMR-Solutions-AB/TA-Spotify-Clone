@@ -2,7 +2,15 @@ import React, { useState } from 'react'
 import { Box, Button, Divider, Grid, Typography } from '@mui/material'
 import TechCard from '../components/Techcard/TechCard'
 import profilePicture from '../assets/profile.jpeg'
-
+import reactlogo from '../assets/react.png'
+import reduxlogo from '../assets/redux.png'
+import routerlogo from '../assets/routerlogo.png'
+import spotifylogo from '../assets/spotifylogo.png'
+import materialui from '../assets/mui.png'
+import netlify from '../assets/netlify.jpeg'
+import facebook from '../assets/facebook.png'
+import linkedin from '../assets/linkedin.png'
+import github from '../assets/github.png'
 const Home = () => {
 	const initialState = '#0a7b7b59'
 	const [gradientColor, setGradientColor] = useState(initialState)
@@ -23,6 +31,7 @@ const Home = () => {
 	const LinkBox = ({ data }) => {
 		return (
 			<a href="" style={linkStyle}>
+				<img src={data.img} style={{ width: '20px' }} />
 				{data.name}
 			</a>
 		)
@@ -33,7 +42,7 @@ const Home = () => {
 			sx={{
 				background: `linear-gradient(${gradientColor},#121212, #121212)`,
 				width: '100vw',
-				padding: '100px 30px',
+				padding: '150px 30px',
 				boxSizing: 'border-box'
 			}}
 		>
@@ -79,6 +88,7 @@ const Home = () => {
 }
 
 export default Home
+
 const basicBoxStyle = { maxWidth: '1300px', width: '100%', margin: '0 auto' }
 
 const imageBox = {
@@ -97,15 +107,15 @@ const textLinkBox = {
 }
 
 const linkStyle = {
-	width: '100px',
 	padding: '10px',
 	background: '#ffffff1e',
 	textDecoration: 'none',
 	color: '#ffffff',
 	borderRadius: '5px',
 	display: 'flex',
-	justifyContent: 'center',
-	alignItems: 'center'
+	justifyContent: 'space-around',
+	alignItems: 'center',
+	gap: '10px'
 }
 
 const linkBox = {
@@ -119,47 +129,50 @@ const linkBox = {
 const technologies = [
 	{
 		name: 'React',
-		img: '#',
-		color: '#60d9fb55'
+		img: reactlogo,
+		color: '#00deff55'
 	},
 	{
 		name: 'React - router',
-		img: '#',
-		color: '#f5415055'
+		img: routerlogo,
+		color: '#f4425055'
 	},
 	{
 		name: 'Redux - toolkit',
-		img: '#',
-		color: '#724aba55'
+		img: reduxlogo,
+		color: '#7f44c555'
 	},
 	{
 		name: 'Spotify Web API',
-		img: '#',
+		img: spotifylogo,
 		color: '#07da5a55'
 	},
 	{
-		name: 'Spotify Web API',
-		img: '#',
-		color: '#07da5a55'
+		name: 'Netlify',
+		img: netlify,
+		color: '#12487c55'
 	},
 	{
 		name: 'Material UI',
-		img: '#',
-		color: '#0078f255'
+		img: materialui,
+		color: '#3e7ff755'
 	}
 ]
 const links = [
 	{
 		name: 'Facebook',
-		link: '#'
+		link: '#',
+		img: facebook
 	},
 	{
 		name: 'LinkedIn',
-		link: '#'
+		link: '#',
+		img: linkedin
 	},
 	{
 		name: 'Github',
-		link: '#'
+		link: '#',
+		img: github
 	}
 ]
 

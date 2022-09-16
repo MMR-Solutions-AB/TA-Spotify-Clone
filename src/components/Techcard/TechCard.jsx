@@ -13,7 +13,8 @@ const TechCard = ({ data, setColor }) => {
 			<img
 				style={{
 					objectFit: 'cover',
-					width: '120px',
+					width: '180px',
+					aspectRatio: '1/1',
 					borderRadius: '10px 0 0px 10px'
 				}}
 				src={data.img}
