@@ -33,52 +33,33 @@ const Home = () => {
 			sx={{
 				background: `linear-gradient(${gradientColor},#121212, #121212)`,
 				width: '100vw',
-				padding: '70px'
+				padding: '100px 30px',
+				boxSizing: 'border-box'
 			}}
 		>
 			<Box sx={{ ...basicBoxStyle, display: 'flex', flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
-				<Box
-					sx={{
-						padding: '20px',
-						width: { xs: '100%', md: 'auto' },
-						textAlign: { xs: 'center', md: 'start' }
-					}}
-				>
-					<img style={{ width: '340px', borderRadius: '50%' }} src={profilePicture} alt="" />
+				<Box sx={imageBox}>
+					<img
+						style={{ maxWidth: '340px', width: '100%', minWidth: '280px', borderRadius: '50%' }}
+						src={profilePicture}
+						alt=""
+					/>
 				</Box>
-				<Box
-					sx={{
-						display: 'flex',
-						justifyContent: 'center',
-						flexDirection: 'column',
-						padding: { xs: '0', md: '0 20px' },
-						textAlign: { xs: 'center', md: 'start' }
-					}}
-				>
-					<Typography variant="h1" fontSize="3.5rem" fontWeight={400} color="text.primary">
+				<Box sx={textLinkBox}>
+					<Typography variant="h1" fontSize="3.1em" fontWeight={400} color="text.primary">
 						Hi! I'm Simona
 					</Typography>
-					<Typography fontSize="15px" color="text.secondary">
-						{text1}
+					<Typography width={{ xs: '100%', md: '80%' }} fontSize="15px" color="text.secondary">
+						{loremText}
 					</Typography>
-					<Typography fontSize="15px" color="text.secondary">
-						{text1}
-					</Typography>
-					<Box
-						sx={{
-							display: 'flex',
-							gap: '10px',
-							padding: '20px 0',
-							justifyContent: { xs: 'center', md: 'start' }
-						}}
-					>
+					<Box sx={linkBox}>
 						{links.map((link, idx) => {
 							return <LinkBox key={idx} data={link} />
 						})}
 					</Box>
 				</Box>
 			</Box>
-			<Box sx={{ ...basicBoxStyle }}>
+			<Box sx={{ ...basicBoxStyle, marginTop: '20px' }}>
 				<Divider />
 				<Typography padding={'20px 20px'} variant="h4" marginTop={2} color="text.primary">
 					Technologies
@@ -100,6 +81,21 @@ const Home = () => {
 export default Home
 const basicBoxStyle = { maxWidth: '1300px', width: '100%', margin: '0 auto' }
 
+const imageBox = {
+	padding: '20px',
+	width: { xs: '100%', md: 'auto' },
+	textAlign: { xs: 'center', md: 'start' }
+}
+
+const textLinkBox = {
+	display: 'flex',
+	justifyContent: 'center',
+	flexDirection: 'column',
+	padding: { xs: '0', md: '0 20px' },
+	textAlign: { xs: 'center', md: 'start' },
+	gap: '10px'
+}
+
 const linkStyle = {
 	width: '100px',
 	padding: '10px',
@@ -110,6 +106,14 @@ const linkStyle = {
 	display: 'flex',
 	justifyContent: 'center',
 	alignItems: 'center'
+}
+
+const linkBox = {
+	display: 'flex',
+	gap: '10px',
+	padding: '20px 0',
+	justifyContent: { xs: 'center', md: 'start' },
+	flexWrap: 'wrap'
 }
 
 const technologies = [
@@ -158,5 +162,6 @@ const links = [
 		link: '#'
 	}
 ]
-const text1 =
-	'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex eveniet dignissimos repellat voluptatibus modi, nisi facere assumenda at nihil doloribus!'
+
+const loremText =
+	'Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.  Ex eveniet dignissimos repellat voluptatibus modi, nisi facere assumenda at nihil doloribus!'
