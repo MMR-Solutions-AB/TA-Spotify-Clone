@@ -52,7 +52,7 @@ const SongRow = ({
 				{isPlaying ? (
 					<Box
 						sx={{
-							width: 20,
+							width: 14,
 							height: 16,
 							display: 'flex',
 							justifyContent: 'space-between',
