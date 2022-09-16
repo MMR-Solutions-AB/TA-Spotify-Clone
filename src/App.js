@@ -22,7 +22,7 @@ function App({ spotifyApi }) {
 
 	return (
 		<Box className="App">
-			{token ? (
+			{!token ? (
 				<Dashboard spotifyApi={spotifyApi} />
 			) : (
 				<Routes>
