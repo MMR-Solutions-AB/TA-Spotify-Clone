@@ -1,9 +1,25 @@
 import React from 'react'
 import { Avatar, Box, Typography, Grid, Skeleton } from '@mui/material'
 import { formatTime } from '../../utils/formatTime'
+import { playSongFromList } from '../../store/playerSlice'
+import { useDispatch } from 'react-redux'
 
-const SongRow = ({ images, title, artist, album, duration, i, loading }) => {
+const SongRow = ({ images, title, artist, album, duration, i, loading, spotifyApi, contextUri, position }) => {
 	const image = images?.length > 0 ? images[0] : null
+	const dispatch = useDispatch()
+	const onRowClick = () => {
+		const song = {
+			context_uri: contextUri,
+			offset: { position },
+			position_ms: 0,
+			title,
+			image: image ? image : {},
+			artist,
+			duration,
+			position
+		}
+		dispatch(playSongFromList({ spotifyApi, song }))
+	}
 
 	return (
 		<Grid
@@ -17,6 +33,7 @@ const SongRow = ({ images, title, artist, album, duration, i, loading }) => {
 				cursor: 'pointer',
 				'&:hover': { bgcolor: '#F0790030' }
 			}}
+			onClick={onRowClick}
 		>
 			<Grid item sx={{ width: 35, display: 'flex', alignItems: 'center', fontSize: 16 }}>
 				{i + 1}
