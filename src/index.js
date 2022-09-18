@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
+import { Provider } from 'react-redux'
+import { store } from './store/store'
 import { ThemeProvider } from '@mui/system'
 import { BrowserRouter } from 'react-router-dom'
 import { themeOptions } from './theme/material-theme'
@@ -19,7 +21,9 @@ root.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<ThemeProvider theme={themeOptions}>
-				<App spotifyApi={spotifyApi} />
+				<Provider store={store}>
+					<App spotifyApi={spotifyApi} />
+				</Provider>
 			</ThemeProvider>
 		</BrowserRouter>
 	</React.StrictMode>
