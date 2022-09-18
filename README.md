@@ -6,6 +6,10 @@
 
 En responsive Spotify clone skapad med relevanta verktyg se nedan. Applikationen består av ca 20 komponenter där vi använder oss utav Spotifys Web Api samt Spotifys SDK för att skapa en Spotify lik upplevelse. I applikationen finns möjlighet att se sina album, spellistor, spela låtar, pausa låtar, spola och justera volym.
 
+### Upplägg
+
+Spotify projektet kommer byggas under 5 dagar med 2 föreläsningar per dag. Varje föreläsning kommer fokusera på att bygga ut vissa delar i taget. För varje föreläsning finns en motsvarande **Branch** och **Pull request** som har namn som exempelvis **F1** för **föreläsning 1**, du hittar alla **Pull requests** [här](https://github.com/MMR-Solutions-AB/TA-Spotify-Clone/pulls). Vill du se vad som gjordes en specifik föreläsning är det bara att tryck på respektive **Pull request** för den föreläsningen. Det finns även ett par **Pull requests** och **Branches** som inte har namn som exempelvis **F1**, dessa är extra uppgifter som du ska göra utöver föreläsningar. Du hittar all info om vad som ska göras i **README.md** filen i den branchen.
+
 ### Starta Applikationen
 
 För att starta en projektet, är det ett par grejer du måste göra.
