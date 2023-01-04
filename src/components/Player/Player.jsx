@@ -31,7 +31,7 @@ const Player = ({ spotifyApi }) => {
 
 		window.onSpotifyWebPlaybackSDKReady = () => {
 			const player = new window.Spotify.Player({
-				name: 'Web Playback SDK',
+				name: 'Techover player',
 				getOAuthToken: (cb) => {
 					cb(token)
 				},
@@ -83,8 +83,37 @@ const Player = ({ spotifyApi }) => {
 		transferMyPlayback()
 	}, [device, spotifyApi])
 
-	console.log('track')
-	console.log(current_track)
+	if (!current_track.name)
+		return (
+			<Box
+				sx={{
+					position: 'absolute',
+					inset: '0px',
+					bgcolor: '#000000cc',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+				p={3}
+			>
+				<Box sx={{ bgcolor: 'background.paper', maxWidth: 450 }} p={5}>
+					<Typography sx={{ color: 'text.primary', fontSize: 28, fontWeight: 'bold' }}>
+						Hur du startar
+					</Typography>
+					<Typography sx={{ color: 'text.secondary', fontSize: 14, marginBottom: 2 }}>
+						Navigera till din Spotify applikation på antigen din dator eller telefon. Tryck på "device"
+						knappen där nere till höger och välj sedan "Techover player" som device. Precis som du ser på
+						bilden nedan
+					</Typography>
+					<Avatar
+						src={'/device-select.png'}
+						alt={'device select'}
+						variant="square"
+						sx={{ width: 336, height: 330, objectFit: 'cover' }}
+					/>
+				</Box>
+			</Box>
+		)
 
 	return (
 		<Box>
