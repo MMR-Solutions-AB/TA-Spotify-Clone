@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import SongTable from '../components/SongTable/SongTable'
 import { useCallback } from 'react'
 
-const Playlist = ({ spotifyApi }) => {
+const Playlist = ({ spotifyApi, token }) => {
 	const [playlistInfo, setPlaylistInfo] = useState()
 	const [songs, setSongs] = useState([])
 	const [status, setStatus] = useState({ isLoading: false, isError: null })
@@ -46,7 +46,7 @@ const Playlist = ({ spotifyApi }) => {
 		getData().finally(() => {
 			setStatus((prev) => ({ ...prev, isLoading: false }))
 		})
-	}, [formatSongData, id, spotifyApi])
+	}, [formatSongData, id, spotifyApi, token])
 
 	return (
 		<Box id="Playlist__page" sx={{ bgcolor: 'background.paper', flex: 1, overflowY: 'auto' }}>

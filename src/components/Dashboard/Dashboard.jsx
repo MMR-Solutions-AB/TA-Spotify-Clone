@@ -36,10 +36,10 @@ const Dashboard = ({ spotifyApi }) => {
 			}}
 		>
 			<Box sx={{ flex: 1, overflowY: 'auto', display: 'flex' }}>
-				<SideNav spotifyApi={spotifyApi} />
+				<SideNav spotifyApi={spotifyApi} token={token} />
 				<Routes>
-					<Route path="/playlist/:id" element={<Playlist spotifyApi={spotifyApi} />} />
-					<Route path="/library" element={<Library />} />
+					<Route path="/playlist/:id" element={<Playlist spotifyApi={spotifyApi} token={token} />} />
+					<Route path="/library" element={<Library spotifyApi={spotifyApi} token={token} />} />
 					<Route path="/" element={<Home />} />
 				</Routes>
 			</Box>

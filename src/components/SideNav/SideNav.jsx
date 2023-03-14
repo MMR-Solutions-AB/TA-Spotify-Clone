@@ -4,18 +4,21 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import NavItem from '../NavItem/NavItem'
 import NavPlaylist from '../NavPlaylist/NavPlaylist'
 
-const SideNav = ({ spotifyApi }) => {
+const SideNav = ({ spotifyApi, token }) => {
 	const [albumList, setAlbumList] = useState(null)
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		async function getPlaylists() {
+			if (!spotifyApi) return
+
 			const data = await spotifyApi.getUserPlaylists()
+
 			setLoading(false)
 			setAlbumList(data.body.items)
 		}
 		getPlaylists()
-	}, [spotifyApi])
+	}, [spotifyApi, token])
 
 	const renderPlaylist = () => {
 		if (loading) {

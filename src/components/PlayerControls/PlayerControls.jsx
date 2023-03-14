@@ -37,7 +37,13 @@ const PlayerControls = ({ player, is_paused, duration, progress }) => {
 				>
 					<SkipPrevious sx={skipStyle} />
 				</IconButton>
-				<IconButton onClick={() => player.togglePlay()} size="small" sx={{ color: 'text.primary' }}>
+				<IconButton
+					onClick={() => {
+						player.togglePlay()
+					}}
+					size="small"
+					sx={{ color: 'text.primary' }}
+				>
 					{is_paused ? (
 						<PlayArrow sx={{ width: 38, height: 38 }} />
 					) : (

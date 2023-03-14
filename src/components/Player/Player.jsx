@@ -56,7 +56,11 @@ const Player = ({ spotifyApi }) => {
 
 	useEffect(() => {
 		if (!localPlayer) return
-		localPlayer.connect()
+		async function connect() {
+			await localPlayer.connect()
+		}
+
+		connect()
 		return () => {
 			localPlayer.disconnect()
 		}
