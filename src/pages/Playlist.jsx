@@ -29,6 +29,7 @@ const Playlist = ({ spotifyApi }) => {
 			setStatus((prev) => ({ ...prev, isLoading: true }))
 			try {
 				const playlistDetail = await spotifyApi.getPlaylist(id)
+
 				setPlaylistInfo({
 					image: playlistDetail.body.images[0].url,
 					name: playlistDetail.body.name

@@ -1,13 +1,11 @@
 import React from 'react'
 import { Avatar, Box, Typography, Grid, Skeleton } from '@mui/material'
 import { formatTime } from '../../utils/formatTime'
-import { playSongFromList } from '../../store/playerSlice'
-import { useDispatch } from 'react-redux'
 
 const SongRow = ({ images, title, artist, album, duration, i, loading, spotifyApi, contextUri, position }) => {
 	const image = images?.length > 0 ? images[0] : null
-	const dispatch = useDispatch()
-	const onRowClick = () => {
+
+	const onRowClick = async () => {
 		const song = {
 			context_uri: contextUri,
 			offset: { position },
@@ -18,7 +16,7 @@ const SongRow = ({ images, title, artist, album, duration, i, loading, spotifyAp
 			duration,
 			position
 		}
-		dispatch(playSongFromList({ spotifyApi, song }))
+		await spotifyApi.play(song)
 	}
 
 	return (

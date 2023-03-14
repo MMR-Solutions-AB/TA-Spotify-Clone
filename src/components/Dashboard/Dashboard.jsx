@@ -3,8 +3,7 @@ import { Box } from '@mui/material'
 import { Routes, Route } from 'react-router-dom'
 import Home from '../../pages/Home'
 import SideNav from '../SideNav/SideNav'
-import { useDispatch } from 'react-redux'
-import { getPlaylist } from '../../store/playlistSlice'
+
 import { getAccessTokenFromStorage } from '../../utils/getAccessTokenFromStorage'
 import Playlist from '../../pages/Playlist'
 import Player from '../Player/Player'
@@ -13,14 +12,12 @@ import Library from '../../pages/Library'
 
 const Dashboard = ({ spotifyApi }) => {
 	const [token, setToken] = useState(null)
-	const dispatch = useDispatch()
 
 	useEffect(() => {
 		const accessToken = getAccessTokenFromStorage()
 
 		const onMount = async () => {
 			await spotifyApi.setAccessToken(accessToken)
-			dispatch(getPlaylist(spotifyApi))
 		}
 
 		if (accessToken) {
@@ -39,7 +36,7 @@ const Dashboard = ({ spotifyApi }) => {
 			}}
 		>
 			<Box sx={{ flex: 1, overflowY: 'auto', display: 'flex' }}>
-				<SideNav />
+				<SideNav spotifyApi={spotifyApi} />
 				<Routes>
 					<Route path="/playlist/:id" element={<Playlist spotifyApi={spotifyApi} />} />
 					<Route path="/library" element={<Library />} />

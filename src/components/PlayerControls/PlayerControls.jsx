@@ -22,6 +22,8 @@ const PlayerControls = ({ player, is_paused, duration, progress }) => {
 		setCurrentProgress(progress)
 	}, [progress])
 
+	if (!player) return <h1>hej hej</h1>
+
 	return (
 		<Stack direction="column" spacing={2} justify="center" alignItems="center" sx={{ width: '100%' }}>
 			<Stack spacing={1} direction="row" justifyContent={'center'} alignItems="center" sx={{ width: '100%' }}>

@@ -1,21 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Divider } from '@mui/material'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import NavItem from '../NavItem/NavItem'
-import { useSelector } from 'react-redux'
 import NavPlaylist from '../NavPlaylist/NavPlaylist'
 
-const SideNav = () => {
-	const { status, albumList } = useSelector((state) => state.playlist)
+const SideNav = ({ spotifyApi }) => {
+	const [albumList, setAlbumList] = useState(null)
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		async function getPlaylists() {
+			const data = await spotifyApi.getUserPlaylists()
+			setLoading(false)
+			setAlbumList(data.body.items)
+		}
+		getPlaylists()
+	}, [spotifyApi])
 
 	const renderPlaylist = () => {
-		if (status.isLoading) {
+		if (loading) {
 			return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, idx) => {
-				return <NavPlaylist key={idx} loading={status.isLoading} />
+				return <NavPlaylist key={idx} loading={loading} />
 			})
 		}
 		return albumList.map((playlist, idx) => {
-			return <NavPlaylist key={idx} id={playlist.id} loading={status.isLoading} name={playlist.name} />
+			return <NavPlaylist key={idx} id={playlist.id} loading={loading} name={playlist.name} />
 		})
 	}
 
