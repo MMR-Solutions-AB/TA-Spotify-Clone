@@ -6,17 +6,9 @@ import PlayerVolume from '../PlayerVolume/PlayerVolume'
 import PlayerOverlay from '../PlayerOverlay/PlayerOverlay'
 
 const Player = ({ spotifyApi }) => {
-	const track = {
-		name: '',
-		album: {
-			images: [{ url: '' }]
-		},
-		artists: [{ name: '' }]
-	}
-
 	const [localPlayer, setPlayer] = useState(null)
 	const [is_paused, setPaused] = useState(false)
-	const [current_track, setTrack] = useState(track)
+	const [current_track, setTrack] = useState(null)
 	const [device, setDevice] = useState(null)
 	const [duration, setDuration] = useState(null)
 	const [progress, setProgress] = useState(null)
@@ -64,7 +56,11 @@ const Player = ({ spotifyApi }) => {
 
 	useEffect(() => {
 		if (!localPlayer) return
-		localPlayer.connect()
+		async function connect() {
+			await localPlayer.connect()
+		}
+
+		connect()
 		return () => {
 			localPlayer.disconnect()
 		}
@@ -83,7 +79,7 @@ const Player = ({ spotifyApi }) => {
 		transferMyPlayback()
 	}, [device, spotifyApi])
 
-	if (!current_track.name)
+	if (!localPlayer || !current_track?.name)
 		return (
 			<Box
 				sx={{

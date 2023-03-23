@@ -1,17 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, List, Typography } from '@mui/material'
-import { useSelector } from 'react-redux'
 import PlaylistItem from '../components/PlaylistItem/PlaylistItem'
 
-const Library = () => {
-	const { status, albumList } = useSelector((state) => state.playlist)
+const Library = ({ spotifyApi, token }) => {
+	const [albumList, setAlbumList] = useState(null)
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		async function getPlaylists() {
+			if (!spotifyApi) return
+
+			const data = await spotifyApi.getUserPlaylists()
+
+			setLoading(false)
+			setAlbumList(data.body.items)
+		}
+		getPlaylists()
+	}, [spotifyApi, token])
 
 	const renderPlaylistItems = () => {
-		if (status.isLoading) {
-			return [1, 2, 3, 4, 5, 6, 7].map((_, i) => <PlaylistItem key={i} loading={status.isLoading} />)
+		if (loading) {
+			return [1, 2, 3, 4, 5, 6, 7].map((_, i) => <PlaylistItem key={i} loading={loading} />)
 		}
 
-		return albumList.map((playlist, i) => <PlaylistItem key={i} {...playlist} loading={status.isLoading} />)
+		return albumList.map((playlist, i) => <PlaylistItem key={i} {...playlist} loading={loading} />)
 	}
 
 	return (
